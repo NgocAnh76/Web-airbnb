@@ -1,7 +1,6 @@
 @import "tailwindcss/preflight";
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
+@tailwind utilities;
+@import "tailwindcss";
 
 :root {
   --color-primary: #3554d1;
@@ -17,7 +16,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: #fff;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -32,6 +31,15 @@ a {
 }
 a:hover {
   color: #3554d0;
+}
+@theme {
+  --color-primary: #3554d1;
+  --color-secondary: #051135;
+  --color-white: #fff;
+  --color-black: #000;
+  --color-dark: #697488;
+  --color-dark-2: #f5f6fc;
+  --color-blue-1: #e5f0fd;
 }
 
 h1 {
@@ -60,6 +68,27 @@ p {
   .button-hover-dark {
     @apply hover:bg-[color:var(--color-dark)] hover:text-[color:var(--color-primary)] transition-all duration-500 ease-linear;
   }
+  .smooth-hover {
+    @apply transition-all duration-500 ease-linear;
+  }
+  .slide-down-effect {
+    @apply absolute left-0 top-0 w-full h-full bg-white transition-transform duration-1000 -z-10;
+  }
+
+  .slide-down-hidden {
+    @apply -translate-y-full opacity-0 overflow-hidden;
+  }
+
+  .slide-down-visible {
+    @apply translate-y-0 opacity-100 overflow-visible;
+  }
+  .flex-box {
+    @apply flex items-center justify-center;
+  }
+  .bg-banner-home {
+    @apply bg-gradient-to-l from-[#05103680] to-[#051036] opacity-80;
+  }
+ 
 }
 
 @keyframes slideFade {
