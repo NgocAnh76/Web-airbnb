@@ -1,26 +1,82 @@
-@import "tailwindcss";
+@import "tailwindcss/preflight";
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-primary: #3554d1;
+  --color-secondary: #051135;
+  --color-white: #fff;
+  --color-black: #000;
+  --color-dark: #697488;
+  --color-dark-2: #f5f6fc;
+  --color-blue-1: #e5f0fd;
+
+  font-family: "Roboto", sans-serif;
+  font-style: normal;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+a {
+  font-weight: 500;
+  color: #fff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #3554d0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+h1 {
+  @apply text-3xl md:text-4xl font-semibold tracking-wider;
+}
+h2 {
+  @apply text-2xl md:text-3xl lg:text-4xl text-[color:var(--color-secondary)] font-semibold;
+}
+h3 {
+  @apply text-base font-semibold lg:text-xl;
+}
+p {
+  @apply text-sm md:text-base lg:text-lg text-[color:var(--color-dark)];
+}
+
+@layer utilities {
+  .text-hover {
+    @apply text-[color:var(--color-primary)];
+  }
+  .button-hover-primary {
+    @apply hover:bg-[color:var(--color-primary)] hover:text-white transition-all duration-500 ease-linear;
+  }
+  .button-hover-secondary {
+    @apply hover:bg-[color:var(--color-secondary)] hover:text-white transition-all duration-500 ease-linear;
+  }
+  .button-hover-dark {
+    @apply hover:bg-[color:var(--color-dark)] hover:text-[color:var(--color-primary)] transition-all duration-500 ease-linear;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes slideFade {
+  0% {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+  50% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(50px);
+    opacity: 0;
+  }
+}
+
+.slide-animation {
+  animation: slideFade 2.5s infinite linear;
 }
