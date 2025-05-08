@@ -1,6 +1,7 @@
 'use client'
 import { BannerHome } from '@/components/sections/home/home-banner';
 import { useState } from 'react';
+import LearnAbout from '@/components/sections/home/learn-about';
 export default function Home() {
   const [backgroundImage, setBackgroundImage] = useState(
     "/images/homePages/banner_home.png"
@@ -8,6 +9,7 @@ export default function Home() {
   return (
     <div>
       <BannerHome backgroundImage={backgroundImage} />
+      <LearnAbout />
     </div>
   );
 }
