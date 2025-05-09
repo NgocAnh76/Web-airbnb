@@ -1,0 +1,46 @@
+@import "tailwindcss";
+.custom-datepicker-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+  flex-wrap: nowrap;
+}
+
+.react-datepicker {
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 10px;
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.react-datepicker__month-container {
+  width: 200px; /* Chiều rộng mỗi tháng */
+}
+
+.react-datepicker__day-name,
+.react-datepicker__day,
+.react-datepicker__time-name {
+  @apply w-5 h-5 leading-5;
+}
+.react-datepicker__day--selected,
+.react-datepicker__day--in-range {
+  background-color: #3b82f6 !important;
+  color: white !important;
+  border-radius: 5px;
+}
+
+.react-datepicker__day--in-range:first-child {
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+
+.react-datepicker__day--in-range:last-child {
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.react-datepicker__day:hover {
+  background-color: #3b82f660 !important;
+}
