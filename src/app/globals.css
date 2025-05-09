@@ -11,7 +11,7 @@
   --color-dark-2: #f5f6fc;
   --color-blue-1: #e5f0fd;
 
-  font-family: "Roboto", sans-serif;
+  font-family: var(--font-roboto), sans-serif;
   font-style: normal;
 
   color-scheme: light dark;
@@ -43,16 +43,16 @@ a:hover {
 }
 
 h1 {
-  @apply text-3xl md:text-4xl font-semibold tracking-wider;
+  @apply text-3xl md:text-4xl lg:text-6xl font-semibold tracking-wider;
 }
 h2 {
   @apply text-2xl md:text-3xl lg:text-4xl text-[color:var(--color-secondary)] font-semibold;
 }
 h3 {
-  @apply text-base font-semibold lg:text-xl;
+  @apply text-base font-semibold lg:text-lg;
 }
 p {
-  @apply text-sm md:text-base lg:text-lg text-[color:var(--color-dark)];
+  @apply text-sm md:text-base text-[color:var(--color-dark)];
 }
 
 @layer utilities {

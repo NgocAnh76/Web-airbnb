@@ -1,0 +1,53 @@
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Đảm bảo hình ảnh bao phủ toàn bộ khung */
+  border-radius: 10px; /* Nếu muốn bo góc */
+}
+.swiper-wrapper {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: #0000007b;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: white;
+  z-index: 1000;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background-color: #3554d1;
+  transition: all 0.3s ease;
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* @media (min-width: 1024px) {
+  .swiper-button-next::after {
+    content: "next";
+    font-family: swiper-icons;
+    font-size: var(--swiper-navigation-size);
+    text-transform: none !important;
+    letter-spacing: 0;
+    font-variant: initial;
+    line-height: 1;
+    z-index: 11;
+  }
+} */

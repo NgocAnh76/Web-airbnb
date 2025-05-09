@@ -1,11 +1,10 @@
-import type { Metadata } from "next";
-import { Roboto_Mono } from "next/font/google";
-import "./globals.css";
-import MainHeader from "@/components/sections/header";
 import MainLayout from "@/layouts/main/MainLayout";
-const Roboto = Roboto_Mono({
+import type { Metadata } from "next";
+import { Roboto } from "next/font/google";
+import "./globals.css";
+const roboto = Roboto({
   variable: "--font-roboto",
-  weight: ["300", "400", "600", "700"],
+  weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
   display: "swap",
 });
@@ -22,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${Roboto.variable} antialiased`}>
+      <body className={`${roboto.variable} antialiased`}>
       <MainLayout>{children}</MainLayout>
       </body>
     </html>

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { logOut } from "@/components/common/Api/auth";
 import Link from "next/link";
+import Image from "next/image";
 const Avatar = () => {
   const [hover, setHover] = useState(false);
   const data: { title: string; link?: string }[] = [
@@ -20,14 +21,16 @@ const Avatar = () => {
       <Link
         href="/user/profile"
         className={twMerge(
-          "w-12 h-12 md:w-14 md:h-14 lg:w-20 lg:h-20 rounded-full",
+          "w-12 h-12 md:w-14 md:h-14 rounded-full",
           " block overflow-hidden object-center "
         )}
       >
-        <img
-          className="w-full object-cover "
+        <Image
+          className="w-24 h-24 object-cover "
           src="/images/homePages/barcelona.jpg"
           alt="avatar"
+          width={200}
+          height={200}
         />
       </Link>
       <motion.div
@@ -41,18 +44,20 @@ const Avatar = () => {
             return (
               <li
                 key={index}
-                className="py-2 px-5 lg:py-4 lg:px-10 hover:bg-gray-300 smooth-hover "
+                className="py-2 px-5 lg:py-4 lg:px-10 hover:bg-gray-300 smooth-hover  "
               >
                 {item.title === "Logout" ? (
                   <button
-                    className={twMerge("text-dark text-sm lg:text-lg")}
-                    onClick={logoutUser}
+                    className={twMerge("text-dark text-sm ")}
+                    onClick={() => {
+                      logoutUser();
+                    }}
                   >
                     {item.title}
                   </button>
                 ) : (
                   <Link
-                    className={twMerge("text-dark text-sm lg:text-lg")}
+                    className={twMerge("text-dark text-sm")}
                     href={item.link || ""}
                   >
                     {item.title}
