@@ -1,19 +1,18 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { CiSearch } from 'react-icons/ci';
 import Calendar from '@/components/common/calender';
-import MenuBooking from '@/components/menu-booking';
 import Location from '@/components/common/location';
+import MenuBooking from '@/components/menu-booking';
+import Image from 'next/image';
+import Link from 'next/link';
+import React, { useEffect, useRef, useState } from 'react';
+import { CiSearch } from 'react-icons/ci';
 
 interface Props {
-  backgroundImage: any;
+  backgroundImage: string;
 }
 
 export const BannerHome: React.FC<Props> = ({ backgroundImage }) => {
-  const pathname = usePathname();
   const [active, setActive] = useState('Hotel');
   const [activeModal, setActiveModal] = useState<number | null>(null);
   const [modalPosition, setModalPosition] = useState<'top' | 'bottom'>(
@@ -67,10 +66,12 @@ export const BannerHome: React.FC<Props> = ({ backgroundImage }) => {
     <section>
       <div className="relative">
         <div className="overflow-hidden">
-          <img
+          <Image
             className="h-[110vh] w-full object-cover lg:h-[100vh]"
             src={backgroundImage}
             alt="Banner"
+            width={1000}
+            height={1000}
           />
           <div className="bg-banner-home absolute inset-0 z-10"></div>
         </div>

@@ -34,7 +34,6 @@ export const SocialButton = ({
   label,
   color,
   className,
-  ...rest
 }: SocialButtonProps) => (
   <button
     className={twMerge(
@@ -43,6 +42,7 @@ export const SocialButton = ({
         'text-primary hover:bg-primary focus:bg-primary bg-white hover:text-white focus:text-white',
       color == 'text-red-500' &&
         'bg-white text-red-500 hover:bg-red-500 hover:text-white focus:bg-red-500 focus:text-white',
+      className,
     )}
   >
     <Icon className="mr-2" />
@@ -52,12 +52,10 @@ export const SocialButton = ({
 
 interface ButtonCustomProps {
   label: string;
-  color: string;
   className?: string;
 }
 export const ButtonCustom = ({
   label,
-  color,
   className,
   ...rest
 }: ButtonCustomProps) => {

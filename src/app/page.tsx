@@ -7,9 +7,7 @@ import {
   LocationVietnam,
 } from '@/components/sections/home/home-location';
 export default function Home() {
-  const [backgroundImage, setBackgroundImage] = useState(
-    '/images/homePages/banner_home.png',
-  );
+  const [backgroundImage] = useState('/images/homePages/banner_home.png');
   return (
     <div>
       <BannerHome backgroundImage={backgroundImage} />
