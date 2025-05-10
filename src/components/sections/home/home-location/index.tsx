@@ -30,7 +30,10 @@ export const LocationForeign = () => {
             <div className="hidden lg:block">
               <ButtonClient
                 href={'/'}
-                className="flex-box text-primary bg-dark-2 smooth-hover hover:bg-primary px-10 text-sm hover:text-white lg:text-base"
+                className={twMerge(
+                  'flex-box text-primary bg-dark-2 smooth-hover hover:bg-primary px-10',
+                  'border-primary border text-sm hover:border-none hover:text-white lg:text-base',
+                )}
               >
                 View All Destinations <MdArrowOutward />
               </ButtonClient>

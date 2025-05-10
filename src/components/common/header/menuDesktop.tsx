@@ -1,52 +1,50 @@
-import React from 'react'
-import { LINK_PAGES } from './header';
+import React from 'react';
+import { LINK_PAGES } from './data-header';
 import { twMerge } from 'tailwind-merge';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import Link from 'next/link';
 
 type Props = {
-  hovered: number | null
-  setHovered: (index: number | null) => void
-  pathname: string
-}
+  hovered: number | null;
+  setHovered: (index: number | null) => void;
+  pathname: string;
+};
 const MenuDesktop = ({ hovered, setHovered, pathname }: Props) => {
   return (
     <div className="hidden lg:block">
-            <ul className="flex-box">
-              {LINK_PAGES.map((link, i) => {
-                 const isActive = pathname === link.link
-                return (
-                  <li
-                    className={`relative group `}
-                    key={i}
-                    onMouseEnter={() => setHovered(i)}
-                    onMouseLeave={() => setHovered(null)}
-                  >
-                    <div className="px-5 flex-box text-sm">
-                      <Link
-                      className={twMerge(
-                        "py-7 font-semibold group-hover:text-primary",
-                        isActive ? "text-primary" : "text-white"
-                      )}
-                        href={link.link}
-                      >
-                        {link.label}
-                      </Link>
-                      <IoMdArrowDropdown className="ml-2 text-2xl group-hover:text-primary smooth-hover" />
-                    </div>
-                    <div
-                      className={`slide-down-effect bg-white ${
-                        hovered === i
-                          ? "slide-down-visible"
-                          : "slide-down-hidden"
-                      }`}
-                    ></div>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-  )
-}
+      <ul className="flex-box">
+        {LINK_PAGES.map((link, i) => {
+          const isActive = pathname === link.link;
+          return (
+            <li
+              className={`group relative`}
+              key={i}
+              onMouseEnter={() => setHovered(i)}
+              onMouseLeave={() => setHovered(null)}
+            >
+              <div className="flex-box px-5 text-sm">
+                <Link
+                  className={twMerge(
+                    'group-hover:text-primary py-7 font-semibold',
+                    isActive ? 'text-primary' : 'text-white',
+                  )}
+                  href={link.link}
+                >
+                  {link.label}
+                </Link>
+                <IoMdArrowDropdown className="group-hover:text-primary smooth-hover ml-2 text-2xl" />
+              </div>
+              <div
+                className={`slide-down-effect bg-white ${
+                  hovered === i ? 'slide-down-visible' : 'slide-down-hidden'
+                }`}
+              ></div>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+};
 
-export default MenuDesktop
+export default MenuDesktop;

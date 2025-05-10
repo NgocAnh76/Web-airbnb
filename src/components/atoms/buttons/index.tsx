@@ -2,7 +2,7 @@ import { twMerge } from 'tailwind-merge';
 import Link from 'next/link';
 interface ButtonProps {
   href: string;
-  children: string | React.ReactNode;
+  children?: string | React.ReactNode;
   className?: string;
 }
 export const ButtonClient = ({
