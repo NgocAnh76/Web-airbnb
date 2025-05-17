@@ -2,14 +2,22 @@
 import { SocialButton } from '@/components/atoms/buttons';
 import { InputField } from '@/components/atoms/input';
 import { loginValidationSchema } from '@/components/common/schemaValidation';
+import { ApiLogin } from '@/configs/api/auth';
+import { setAccessToken, setUser } from '@/configs/api/local-service';
+import { login } from '@/redux/slice/user';
 import { useFormik } from 'formik';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { FaEye, FaEyeSlash, FaFacebookF, FaGoogle } from 'react-icons/fa';
 import { IoReturnDownBack } from 'react-icons/io5';
+import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 import { twMerge } from 'tailwind-merge';
 
 const LoginPage = () => {
+  const dispatch = useDispatch();
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
@@ -20,8 +28,21 @@ const LoginPage = () => {
     },
     validationSchema: loginValidationSchema,
     onSubmit: async (values) => {
-      //   await mutation.mutateAsync(values);
       console.log(values);
+      try {
+        const response = await ApiLogin(values);
+        console.log(response);
+        toast.success('Login successfully');
+
+        setAccessToken(response.metaData.token.accessToken);
+        setUser(response.metaData.user);
+
+        dispatch(login(response.metaData.user));
+
+        router.push('/');
+      } catch (error) {
+        toast.error((error as any).response.data.message || 'Login failed!');
+      }
     },
   });
 

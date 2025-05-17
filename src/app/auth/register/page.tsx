@@ -2,20 +2,21 @@
 import { SocialButton } from '@/components/atoms/buttons';
 import { InputField } from '@/components/atoms/input';
 import { signupValidationSchema } from '@/components/common/schemaValidation';
+import { register } from '@/configs/api/auth';
 import { useFormik } from 'formik';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { FaEye, FaEyeSlash, FaFacebookF, FaGoogle } from 'react-icons/fa';
 import { IoReturnDownBack } from 'react-icons/io5';
+import { toast } from 'react-toastify';
 import { twMerge } from 'tailwind-merge';
 
 const RegisterPage = () => {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
-  const toggleConfirmPasswordVisibility = () =>
-    setShowConfirmPassword(!showConfirmPassword);
+
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -27,8 +28,14 @@ const RegisterPage = () => {
     },
     validationSchema: signupValidationSchema,
     onSubmit: async (values) => {
-      // await mutation.mutateAsync(values);
-      console.log(values);
+      try {
+        console.log(values);
+        await register(values);
+        toast.success('Register successfully');
+        router.push('/auth/login');
+      } catch (error) {
+        toast.error((error as any).response.data.message || 'Register failed!');
+      }
     },
   });
   const dataInput: {
@@ -62,16 +69,11 @@ const RegisterPage = () => {
               <div key={i} className="relative">
                 <InputField
                   type={
-                    data.type ||
-                    (data.isPassword
-                      ? data.name === 'pass_word'
-                        ? showPassword
-                          ? 'text'
-                          : 'password'
-                        : showConfirmPassword
-                          ? 'text'
-                          : 'password'
-                      : 'text')
+                    data.isPassword
+                      ? showPassword
+                        ? 'text'
+                        : 'password'
+                      : data.type || 'text'
                   }
                   placeholder={data.placeholder}
                   name={data.name}
@@ -86,11 +88,7 @@ const RegisterPage = () => {
                 {data.isPassword && (
                   <button
                     type="button"
-                    onClick={
-                      data.name === 'password'
-                        ? togglePasswordVisibility
-                        : toggleConfirmPasswordVisibility
-                    }
+                    onClick={togglePasswordVisibility}
                     className={twMerge(
                       'absolute top-1/2 right-5 text-base text-gray-500 lg:text-xl',
                       formik.errors[data.name as keyof typeof formik.errors] &&
@@ -99,17 +97,7 @@ const RegisterPage = () => {
                         : '',
                     )}
                   >
-                    {data.name === 'password' ? (
-                      showPassword ? (
-                        <FaEye />
-                      ) : (
-                        <FaEyeSlash />
-                      )
-                    ) : showConfirmPassword ? (
-                      <FaEye />
-                    ) : (
-                      <FaEyeSlash />
-                    )}
+                    {showPassword ? <FaEye /> : <FaEyeSlash />}
                   </button>
                 )}
               </div>

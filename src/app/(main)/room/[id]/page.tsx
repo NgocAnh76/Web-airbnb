@@ -1,0 +1,327 @@
+'use client';
+import Image from 'next/image';
+import { FaBed, FaParking, FaWifi } from 'react-icons/fa';
+import { FaKitchenSet } from 'react-icons/fa6';
+import { GiWashingMachine } from 'react-icons/gi';
+import { HiOutlineBellAlert, HiXMark } from 'react-icons/hi2';
+import { IoCheckmarkOutline } from 'react-icons/io5';
+import { LuCircleParking, LuMapPin } from 'react-icons/lu';
+import {
+  MdBathtub,
+  MdBedroomParent,
+  MdLiving,
+  MdOutlinePool,
+  MdOutlineRoomService,
+} from 'react-icons/md';
+import {
+  PiAirplaneTakeoffDuotone,
+  PiCigaretteSlashDuotone,
+  PiTelevisionSimpleDuotone,
+} from 'react-icons/pi';
+import { TbAirConditioning, TbIroningSteamFilled } from 'react-icons/tb';
+import {
+  useGetComment,
+  useGetRoomById,
+  useGetRoomByLocationId,
+} from '@/configs/api/queries';
+import IsLoading from '@/components/common/isLoading';
+import { toast } from 'react-toastify';
+import { useEffect } from 'react';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
+import { ReactNode } from 'react';
+import { RoomCardProps } from '@/helper/type/room';
+import { div, p } from 'motion/react-client';
+import { CiWarning } from 'react-icons/ci';
+import Avatar from '@/components/common/avatar';
+import renderStars from '@/components/common/render/render.start';
+
+// Types
+interface Location {
+  province: string;
+  address: string;
+}
+
+interface Room {
+  room_id: number;
+  room_name: string;
+  image: string;
+  living_room: number;
+  bedroom: number;
+  bed: number;
+  bathroom: number;
+  kitchen: boolean;
+  washing_machine: boolean;
+  air_conditioner: boolean;
+  television: boolean;
+  wifi: boolean;
+  iron: boolean;
+  parking: boolean;
+  pool: boolean;
+  description: string;
+  price: number;
+  address: string;
+  locations: Location;
+}
+
+interface PropertyHighlight {
+  icon: ReactNode;
+  label: string;
+}
+
+interface RoomAmenity {
+  icon: ReactNode;
+  label: string;
+  value: number | boolean;
+}
+
+// Constants
+const PROPERTY_HIGHLIGHTS: PropertyHighlight[] = [
+  { icon: <PiAirplaneTakeoffDuotone />, label: 'Airport transfer' },
+  { icon: <HiOutlineBellAlert />, label: 'Front desk [24-hour]' },
+  { icon: <PiCigaretteSlashDuotone />, label: 'No smoking' },
+  { icon: <LuCircleParking />, label: 'Free parking' },
+  { icon: <FaWifi />, label: 'Free wifi' },
+  { icon: <MdOutlineRoomService />, label: 'Room service' },
+];
+
+const ROOM_AMENITIES = (data: Room): RoomAmenity[] => [
+  { icon: <MdLiving />, label: 'Living room', value: data.living_room },
+  { icon: <MdBedroomParent />, label: 'Bed room', value: data.bedroom },
+  { icon: <MdBathtub />, label: 'Bath room', value: data.bathroom },
+  { icon: <FaBed />, label: 'Bed', value: data.bed },
+  {
+    icon: <GiWashingMachine />,
+    label: 'Washing Machine',
+    value: data.washing_machine,
+  },
+  {
+    icon: <TbAirConditioning />,
+    label: 'Air Conditioner',
+    value: data.air_conditioner,
+  },
+  {
+    icon: <PiTelevisionSimpleDuotone />,
+    label: 'Television',
+    value: data.television,
+  },
+  { icon: <FaWifi />, label: 'Wifi', value: data.wifi },
+  { icon: <TbIroningSteamFilled />, label: 'Iron', value: data.iron },
+  { icon: <FaKitchenSet />, label: 'Kitchen', value: data.kitchen },
+  { icon: <FaParking />, label: 'Parking', value: data.parking },
+  { icon: <MdOutlinePool />, label: 'Pool', value: data.pool },
+];
+
+// Components
+const PropertyHighlights = () => (
+  <div className="mt-10">
+    <h2>Property highlights</h2>
+    <ul className="grid grid-cols-2 gap-10 py-5 md:grid-cols-3">
+      {PROPERTY_HIGHLIGHTS.map((highlight, index) => (
+        <li
+          className="flex items-center gap-2 text-center lg:gap-5"
+          key={index}
+        >
+          <p className="text-primary text-3xl">{highlight.icon}</p>
+          <p className="">{highlight.label}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+);
+
+const RoomAmenities = ({ data }: { data: Room }) => {
+  const iconTrue = <IoCheckmarkOutline className="text-2xl text-green-500" />;
+  const iconFalse = <HiXMark className="text-2xl text-red-500" />;
+
+  return (
+    <div className="mt-10">
+      <h2>Room amenities</h2>
+      <ul className="grid grid-cols-2 gap-7 py-5 md:ml-12 md:grid-cols-3 lg:ml-0">
+        {ROOM_AMENITIES(data).map((amenity, index) => (
+          <li key={index} className="flex items-center gap-2">
+            {amenity.icon}
+            <p>{amenity.label}:</p>
+            <p className="text-primary">
+              {typeof amenity.value === 'boolean'
+                ? amenity.value
+                  ? iconTrue
+                  : iconFalse
+                : amenity.value}
+            </p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+const ImageGallery = ({ images }: { images: string[] }) => (
+  <div className="grid grid-cols-1 gap-2 p-4 md:grid-cols-3">
+    <div className="md:col-span-2 lg:row-span-3">
+      <Image
+        src={images[0]}
+        alt="Main"
+        className="h-full w-full rounded-xl object-cover"
+        width={300}
+        height={300}
+      />
+    </div>
+    {images.slice(1, 7).map((img, index) => (
+      <div key={index}>
+        <Image
+          src={img}
+          alt={`Image ${index + 1}`}
+          className="h-full w-full rounded-xl object-cover"
+          width={300}
+          height={300}
+        />
+      </div>
+    ))}
+  </div>
+);
+
+const Comment = ({ roomId }: { roomId: number }) => {
+  console.log(roomId);
+  const { data, isLoading, error } = useGetComment(roomId);
+  if (isLoading) return <IsLoading />;
+  if (error) toast.error(error.message);
+  if (!data || !Array.isArray(data) || data.length === 0)
+    return (
+      <div>
+        <div className="mb-3">
+          <h2>Comment</h2>
+          <p className="mt-2 ml-2 lg:ml-4">People's reviews of the room</p>
+        </div>
+        <p className="border-gray-3 text-primary ml-2 flex items-center gap-2 rounded-lg border p-3 lg:ml-4 lg:w-1/2">
+          No reviews yet
+          <div className="flex items-center text-yellow-400">
+            <CiWarning /> <CiWarning /> <CiWarning />
+          </div>
+        </p>
+        ;
+      </div>
+    );
+  return (
+    <div>
+      <div>
+        <h2>Comment</h2>
+        <p>People's reviews of the room</p>
+      </div>
+      <ul className="grid grid-cols-1 gap-3 p-3 md:grid-cols-2">
+        {data.map((comment) => (
+          <li
+            key={comment.comment_id}
+            className="border-dark-3 bg-dark-3 mb-2 rounded-lg border p-3 shadow-sm"
+          >
+            <div className="flex items-start gap-2">
+              <Avatar />
+              <div>
+                <div>
+                  <h4 className="font-semibold text-black capitalize">
+                    {comment.users.full_name}
+                  </h4>
+                  <p className="flex items-center">
+                    {renderStars(comment.star_comment)}
+                  </p>
+                </div>
+                <p className="mt-2">{comment.content}</p>
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+// Utilities
+const formatPrice = (price: number) => {
+  return price.toLocaleString('vi-VN', {
+    style: 'currency',
+    currency: 'VND',
+  });
+};
+
+const processDescription = (description: string | undefined | null) => {
+  if (!description) {
+    return {
+      firstPart: 'No description available.',
+      secondPart: 'Please contact support for more information.',
+    };
+  }
+
+  const descriptions = description.split('.');
+  const middleDescription = Math.floor(descriptions.length / 2);
+  return {
+    firstPart: descriptions.slice(0, middleDescription).join('.'),
+    secondPart: descriptions.slice(middleDescription).join('.'),
+  };
+};
+
+const processImages = (imageString: string | undefined | null) => {
+  if (!imageString) return [];
+
+  return imageString
+    .split(',')
+    .filter(Boolean)
+    .map((url) => url.trim())
+    .filter((url) => url.startsWith('http') || url.startsWith('https'));
+};
+
+// Main Component
+const DetailRoom = () => {
+  const pathname = usePathname();
+  const roomId = pathname.split('/')[2];
+
+  const { data, isLoading, error } = useGetRoomById(Number(roomId));
+
+  useEffect(() => {
+    if (error) toast.error(error.message);
+  }, [error]);
+
+  if (isLoading) return <IsLoading />;
+
+  const cleanImageList = processImages(data.image);
+  const { firstPart, secondPart } = processDescription(data.description);
+
+  return (
+    <div className="container mx-auto">
+      <div className="px-5 pt-20 md:pt-28 lg:pt-40">
+        <div>
+          <h1 className="max-w-3xs text-2xl font-bold text-black md:max-w-xl md:text-3xl lg:max-w-4xl lg:text-4xl">
+            {data.room_name || 'No name available'}
+          </h1>
+          <p className="flex-box justify-start gap-2 py-2">
+            <LuMapPin className="text-primary text-xl" />{' '}
+            {data.address || 'No address available'} -{' '}
+            {data.locations?.province || 'No province available'}
+          </p>
+        </div>
+
+        <div className="flex-box justify-between py-3">
+          <p className="text-primary text-2xl font-bold lg:text-4xl">
+            {formatPrice(data.price || 0)}
+          </p>
+          <button className="bg-primary hover:bg-secondary focus:bg-secondary smooth-hover rounded-lg px-4 py-2 text-white md:py-5 lg:px-15 lg:text-lg">
+            Book now
+          </button>
+        </div>
+
+        <ImageGallery images={cleanImageList} />
+
+        <div className="mt-10">
+          <h2>Description</h2>
+          <p className="py-1 lg:mt-5">{firstPart}</p>
+          <p className="py-1">{secondPart}</p>
+        </div>
+
+        <PropertyHighlights />
+        <RoomAmenities data={data} />
+        <Comment roomId={Number(roomId)} />
+      </div>
+    </div>
+  );
+};
+
+export default DetailRoom;

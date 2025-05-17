@@ -1,10 +1,13 @@
-// app/components/dashboard/DashboardClient.tsx
-
 'use client';
 
+import { ul } from 'motion/react-client';
 import React, { useState } from 'react';
 import { FaCheckSquare, FaRegSquare } from 'react-icons/fa';
 import { Range } from 'react-range';
+import { DATA_MENU_ADMIN } from '../header/data-header';
+import Link from 'next/link';
+import { twMerge } from 'tailwind-merge';
+import { usePathname } from 'next/navigation';
 
 const DashboardClient = () => {
   const [budget, setBudget] = useState([50000, 2000000]);
@@ -45,16 +48,16 @@ const DashboardClient = () => {
   };
 
   return (
-    <div className="w-1/4 rounded-md bg-white p-4 shadow-md">
+    <div className="hidden w-1/4 rounded-md bg-white p-4 shadow-md md:block">
       <h3 className="text-lg font-bold">Filter by:</h3>
 
       {/* Budget Filter */}
-      <div className="mt-4">
+      <div className="mt-4 text-black">
         <h4 className="font-semibold">Your budget (per night)</h4>
         <p>
           VND {budget[0].toLocaleString()} - VND {budget[1].toLocaleString()}+
         </p>
-        <div className="relative mt-2 h-2 rounded-full bg-gray-200">
+        <div className="relative mt-2 h-2 rounded-full bg-gray-200 text-black">
           <div
             className="absolute top-0 left-0 h-2 rounded-full bg-blue-500"
             style={{
@@ -100,12 +103,12 @@ const DashboardClient = () => {
           setter: setSelectedReviewScore,
         },
       ].map(({ label, items, state, setter }) => (
-        <div key={label} className="mt-4">
-          <h4 className="mb-2 font-semibold">{label}</h4>
+        <div key={label} className="mt-4 flex flex-col lg:gap-4">
+          <h4 className="mb-2 font-semibold text-black">{label}</h4>
           {items.map((item) => (
             <div
               key={item}
-              className="flex cursor-pointer items-center space-x-2"
+              className="flex cursor-pointer items-center space-x-2 text-black"
               onClick={() => toggleSelection(item, setter, state)}
             >
               {state.includes(item) ? (
@@ -113,7 +116,7 @@ const DashboardClient = () => {
               ) : (
                 <FaRegSquare className="text-gray-500" />
               )}
-              <span>{item}</span>
+              <p>{item}</p>
             </div>
           ))}
         </div>
@@ -123,3 +126,33 @@ const DashboardClient = () => {
 };
 
 export default DashboardClient;
+
+export const DashboardAdmin = () => {
+  const pathname = usePathname();
+  return (
+    <ul>
+      {DATA_MENU_ADMIN.map((item) => (
+        <li
+          key={item.id}
+          className={twMerge(
+            'group border-dark-3 border-b px-10 py-4',
+            pathname === item.href && 'bg-primary',
+          )}
+        >
+          <Link
+            href={item.href}
+            className="flex-box w-full justify-start gap-2 px-3"
+          >
+            <p className="group-hover:text-primary smooth-hover text-white">
+              {item.icon}
+            </p>
+
+            <p className="group-hover:text-primary smooth-hover text-white">
+              {item.name}
+            </p>
+          </Link>
+        </li>
+      ))}
+    </ul>
+  );
+};

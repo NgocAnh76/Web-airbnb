@@ -7,7 +7,7 @@ import { twMerge } from 'tailwind-merge';
 import { IoCheckboxOutline } from 'react-icons/io5';
 import { FaXmark } from 'react-icons/fa6';
 import { ButtonClient } from '../buttons';
-
+import { RoomCardProps } from '@/helper/type/room';
 interface RectangleCardProps {
   image: string;
   title: string;
@@ -33,8 +33,8 @@ export const RectangleCard = ({
           className="h-full w-full object-cover"
           src={image}
           alt={title}
-          width={300}
-          height={300}
+          width={500}
+          height={500}
         />
       </div>
       <motion.div
@@ -68,48 +68,25 @@ export const RectangleCard = ({
   );
 };
 
-interface RoomCardProps {
-  data: {
-    image: string;
-    room_name: string;
-    address: string;
-    living_room: string;
-    bedroom: string;
-    bed: string;
-    bathroom: string;
-    kitchen: boolean;
-    washing_machine: boolean;
-    air_conditioner: boolean;
-    television: boolean;
-    wifi: boolean;
-    iron: boolean;
-    parking: boolean;
-    pool: boolean;
-    price: number;
-    room_id: number;
-    locations: {
-      province: string;
-    };
-  }[];
-}
-
 export const RoomCard = ({ data }: RoomCardProps) => {
   console.log(data);
   const iconTrue = <IoCheckboxOutline className="text-2xl text-green-500" />;
   const iconFalse = <FaXmark className="text-2xl text-red-500" />;
   return (
     <div className="container">
-      {data.map((data, index) => {
+      {data.map((data) => {
         return (
           <div
             className="flex-box border-dark mx-2 my-2 gap-5 rounded-lg border p-3"
-            key={index}
+            key={data.room_id}
           >
             <div className="w-2/5">
-              <img
+              <Image
                 className="h-52 w-full rounded-lg object-cover md:h-56"
                 src={data.image}
                 alt={data.room_name}
+                width={300}
+                height={300}
               />
             </div>
             <div className="w-3/5">
@@ -120,7 +97,7 @@ export const RoomCard = ({ data }: RoomCardProps) => {
                 </p>
               </div>
               <div className="justify-between gap-5 md:flex">
-                <ul className="border-dark mt-3 h-24 w-full overflow-y-auto border-l-2 pl-2 md:mt-5 md:h-40 md:pl-3">
+                <ul className="border-dark scrollbar-hide mt-3 h-24 w-full overflow-y-auto border-l-2 pl-2 md:mt-5 md:h-40 md:pl-3">
                   <li>
                     <p>Living Room:</p>
                     <p>{data.living_room}</p>
@@ -136,10 +113,6 @@ export const RoomCard = ({ data }: RoomCardProps) => {
                   <li>
                     <p>Bathroom:</p>
                     <p>{data.bathroom}</p>
-                  </li>
-                  <li>
-                    <p>Kitchen:</p>
-                    <p>{data.kitchen ? iconTrue : iconFalse}</p>
                   </li>
                   <li>
                     <p>Washing Machine:</p>
