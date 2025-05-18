@@ -104,57 +104,57 @@ export const AvatarCustomName = ({
   );
 };
 
-// interface AvatarProps {
-//   src?: string;
-//   alt?: string;
-//   size?: number;
-//   className?: string;
-//   name?: string;
-//   textColor?: string;
-//   bgColor?: string;
-//   userId?: number | string;
-// }
+interface AvatarProps {
+  src?: string;
+  alt?: string;
+  size?: number;
+  className?: string;
+  name?: string;
+  textColor?: string;
+  bgColor?: string;
+  userId?: number | string;
+}
 
-// const AvatarImage = ({
-//   src,
-//   alt = 'Avatar',
-//   size = 40,
-//   className,
-//   name,
-//   textColor = 'fff',
-//   bgColor = 'random',
-//   userId,
-// }: AvatarProps) => {
-//   const isBase64 = src?.startsWith('data:image');
-//   const [error, setError] = useState(false);
+export const AvatarImage = ({
+  src,
+  alt = 'Avatar',
+  size = 40,
+  className,
+  name,
+  textColor = 'fff',
+  bgColor = 'random',
+  userId,
+}: AvatarProps) => {
+  const isBase64 = src?.startsWith('data:image');
+  const [error, setError] = useState(false);
 
-//   return (
-//     <div
-//       className={twMerge('relative overflow-hidden rounded-full', className)}
-//       style={{ width: size, height: size }}
-//     >
-//       {src && !error ? (
-//         <Image
-//           src={isBase64 ? src : src}
-//           alt={alt}
-//           width={size}
-//           height={size}
-//           className="h-full w-full object-cover"
-//           onError={() => setError(true)}
-//         />
-//       ) : (
-//         <AvatarCustomName
-//           name={name || alt}
-//           className="h-full w-full"
-//           defaultSize={size}
-//           textColor={textColor}
-//           bgColor={bgColor}
-//           userId={userId}
-//         />
-//       )}
-//     </div>
-//   );
-// };
+  return (
+    <div
+      className={twMerge('relative overflow-hidden rounded-full', className)}
+      style={{ width: size, height: size }}
+    >
+      {src && !error ? (
+        <Image
+          src={isBase64 ? src : src}
+          alt={alt}
+          width={size}
+          height={size}
+          className="h-full w-full object-cover"
+          onError={() => setError(true)}
+        />
+      ) : (
+        <AvatarCustomName
+          name={name || alt}
+          className="h-full w-full"
+          defaultSize={size}
+          textColor={textColor}
+          bgColor={bgColor}
+          userId={userId}
+        />
+      )}
+    </div>
+  );
+};
 
 const Avatar = () => {
   const dispatch = useDispatch();
