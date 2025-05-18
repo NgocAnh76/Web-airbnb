@@ -62,7 +62,7 @@ const MainHeader = () => {
             ) : (
               <ButtonClient
                 href="/auth/register"
-                className="smooth-hover hover:bg-white md:py-3 lg:py-5"
+                className="smooth-hover hover:bg-white md:py-2"
               >
                 Login/Register
               </ButtonClient>

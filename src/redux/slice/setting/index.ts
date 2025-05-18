@@ -8,5 +8,5 @@ const settingSlice = createSlice({
   reducers: {},
 });
 
-export const {} = settingSlice.actions;
+export const settingActions = settingSlice.actions;
 export default settingSlice.reducer;

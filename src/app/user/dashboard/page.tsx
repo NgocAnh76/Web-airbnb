@@ -3,7 +3,6 @@ import Avatar from '@/components/common/avatar';
 import HeaderDashboard from '@/components/common/header/headerDashboard';
 import { UserInfo } from '@/helper/type/type-user';
 import { RootState } from '@/redux/rootReducer';
-import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import {

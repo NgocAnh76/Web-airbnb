@@ -1,5 +1,12 @@
 'use client';
+import Avatar from '@/components/common/avatar';
+import IsLoading from '@/components/common/isLoading';
+import renderStars from '@/components/common/render/render.start';
+import { useGetComment, useGetRoomById } from '@/configs/api/queries';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
+import { ReactNode, useEffect } from 'react';
+import { CiWarning } from 'react-icons/ci';
 import { FaBed, FaParking, FaWifi } from 'react-icons/fa';
 import { FaKitchenSet } from 'react-icons/fa6';
 import { GiWashingMachine } from 'react-icons/gi';
@@ -19,22 +26,7 @@ import {
   PiTelevisionSimpleDuotone,
 } from 'react-icons/pi';
 import { TbAirConditioning, TbIroningSteamFilled } from 'react-icons/tb';
-import {
-  useGetComment,
-  useGetRoomById,
-  useGetRoomByLocationId,
-} from '@/configs/api/queries';
-import IsLoading from '@/components/common/isLoading';
 import { toast } from 'react-toastify';
-import { useEffect } from 'react';
-import { usePathname } from 'next/navigation';
-import Link from 'next/link';
-import { ReactNode } from 'react';
-import { RoomCardProps } from '@/helper/type/room';
-import { div, p } from 'motion/react-client';
-import { CiWarning } from 'react-icons/ci';
-import Avatar from '@/components/common/avatar';
-import renderStars from '@/components/common/render/render.start';
 
 // Types
 interface Location {
@@ -191,7 +183,7 @@ const Comment = ({ roomId }: { roomId: number }) => {
       <div>
         <div className="mb-3">
           <h2>Comment</h2>
-          <p className="mt-2 ml-2 lg:ml-4">People's reviews of the room</p>
+          <p className="mt-2 ml-2 lg:ml-4">Peoples reviews of the room</p>
         </div>
         <p className="border-gray-3 text-primary ml-2 flex items-center gap-2 rounded-lg border p-3 lg:ml-4 lg:w-1/2">
           No reviews yet
@@ -206,7 +198,7 @@ const Comment = ({ roomId }: { roomId: number }) => {
     <div>
       <div>
         <h2>Comment</h2>
-        <p>People's reviews of the room</p>
+        <p>Peoples reviews of the room</p>
       </div>
       <ul className="grid grid-cols-1 gap-3 p-3 md:grid-cols-2">
         {data.map((comment) => (

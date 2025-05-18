@@ -9,6 +9,8 @@ export interface UserInfo {
   gender: string;
   created_at: string;
   updated_at: string;
+  pass_word: string;
+  role_id: number;
 }
 
 export interface TypeUpdateUser {
@@ -17,4 +19,7 @@ export interface TypeUpdateUser {
   phone: string;
   birth_day: string;
   gender: string;
+  pass_word: string;
+  role_id: string;
+  avatar: string;
 }

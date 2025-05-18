@@ -8,12 +8,12 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <HeaderAdmin />
-      <div className="flex-box w-full items-start lg:gap-10">
-        <div className="hidden min-h-[calc(100vh-120px)] bg-gray-800 lg:block lg:w-1/5">
+      <div className="flex-box h-full w-full items-start">
+        <div className="hidden h-full min-h-[calc(100vh-120px)] bg-gray-800 lg:block lg:w-1/5">
           <DashboardAdmin />
         </div>
-        <div className="min-h-[calc(100vh-120px)] lg:hidden"></div>
-        <div className="w-full lg:w-4/5">{children}</div>
+        <div className="h-full min-h-[calc(100vh-120px)] lg:hidden"></div>
+        <div className="h-full w-full lg:w-4/5 lg:pl-10">{children}</div>
       </div>
 
       <FooterAdmin />

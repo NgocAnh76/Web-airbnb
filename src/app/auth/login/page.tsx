@@ -41,7 +41,7 @@ const LoginPage = () => {
 
         router.push('/');
       } catch (error) {
-        toast.error((error as any).response.data.message || 'Login failed!');
+        console.log(error);
       }
     },
   });

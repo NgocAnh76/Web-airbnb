@@ -6,19 +6,31 @@ export function SetupResponseInterceptor(api: AxiosInstance) {
     (res) => res,
     (error) => {
       const status = error.response?.status;
+      const apiMessage = error.response?.data?.message;
+
+      const messageToShow =
+        typeof apiMessage === 'string'
+          ? apiMessage
+          : Array.isArray(apiMessage)
+            ? apiMessage.join(', ')
+            : error.message || 'An error occurred.';
 
       switch (status) {
         case 401:
-          toast.error('Session expired. Please login again.');
+          toast.error(messageToShow || 'Session expired. Please login again.');
           break;
         case 403:
-          toast.warning('You are not authorized to perform this action.');
+          toast.warning(
+            messageToShow || 'You are not authorized to perform this action.',
+          );
           break;
         case 500:
-          toast.error('Internal server error. Please try again later.');
+          toast.error(
+            messageToShow || 'Internal server error. Please try again later.',
+          );
           break;
         default:
-          toast.error(error.message || 'An error occurred.');
+          toast.error(messageToShow);
       }
 
       return Promise.reject(error);

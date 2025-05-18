@@ -1,12 +1,10 @@
 'use client';
-import { IoReorderThreeOutline } from 'react-icons/io5';
-import { LogoWhite } from '../logo';
-import { useState } from 'react';
-import { PiHouseLineDuotone } from 'react-icons/pi';
-import { CiLocationOn, CiUser } from 'react-icons/ci';
 import Link from 'next/link';
-import { twMerge } from 'tailwind-merge';
 import { usePathname } from 'next/navigation';
+import { useState } from 'react';
+import { IoReorderThreeOutline } from 'react-icons/io5';
+import { twMerge } from 'tailwind-merge';
+import { LogoWhite } from '../logo';
 import { DATA_MENU_ADMIN } from './data-header';
 
 const HeaderAdmin = () => {

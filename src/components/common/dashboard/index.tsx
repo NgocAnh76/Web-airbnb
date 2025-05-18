@@ -1,13 +1,12 @@
 'use client';
 
-import { ul } from 'motion/react-client';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import React, { useState } from 'react';
 import { FaCheckSquare, FaRegSquare } from 'react-icons/fa';
 import { Range } from 'react-range';
-import { DATA_MENU_ADMIN } from '../header/data-header';
-import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
-import { usePathname } from 'next/navigation';
+import { DATA_MENU_ADMIN } from '../header/data-header';
 
 const DashboardClient = () => {
   const [budget, setBudget] = useState([50000, 2000000]);
@@ -130,7 +129,7 @@ export default DashboardClient;
 export const DashboardAdmin = () => {
   const pathname = usePathname();
   return (
-    <ul>
+    <ul className="h-full">
       {DATA_MENU_ADMIN.map((item) => (
         <li
           key={item.id}

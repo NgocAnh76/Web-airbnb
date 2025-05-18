@@ -15,6 +15,7 @@ export const DATA_REGISTER: {
 export const DATA_EDIT_PROFILE_ADMIN: {
   placeholder: string;
   name: string;
+  pass_word?: string;
   type?: string;
   phone?: string;
   birth_day?: string;
@@ -23,10 +24,11 @@ export const DATA_EDIT_PROFILE_ADMIN: {
 }[] = [
   { placeholder: 'Email', name: 'email' },
   { placeholder: 'Full name', name: 'full_name' },
+  { placeholder: 'Password', name: 'pass_word' },
   { placeholder: 'Phone', name: 'phone' },
   { placeholder: 'Birthday', name: 'birth_day' },
   { placeholder: 'Gender', name: 'gender', type: 'select' },
-  { placeholder: 'Role', name: 'role', type: 'select' },
+  { placeholder: 'Role', name: 'role_id', type: 'select' },
 ];
 
 export const DATA_EDIT_PROFILE: {
@@ -42,4 +44,5 @@ export const DATA_EDIT_PROFILE: {
   { placeholder: 'Phone', name: 'phone' },
   { placeholder: 'Birthday', name: 'birth_day' },
   { placeholder: 'Gender', name: 'gender', type: 'select' },
+  { placeholder: 'Role', name: 'role_id', type: 'select' },
 ];
