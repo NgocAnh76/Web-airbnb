@@ -1,7 +1,6 @@
 @import "tailwindcss/preflight";
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
+@tailwind utilities;
+@import "tailwindcss";
 
 :root {
   --color-primary: #3554d1;
@@ -12,12 +11,13 @@
   --color-dark-2: #f5f6fc;
   --color-blue-1: #e5f0fd;
 
-  font-family: "Roboto", sans-serif;
+
+  font-family: var(--font-roboto), sans-serif;
   font-style: normal;
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: #fff;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -33,18 +33,30 @@ a {
 a:hover {
   color: #3554d0;
 }
+@theme {
+  --color-primary: #3554d1;
+  --color-secondary: #051135;
+  --color-white: #fff;
+  --color-black: #000;
+  --color-dark: #697488;
+  --color-dark-2: #f5f6fc;
+  --color-dark-3: #eee;
+  --color-blue-1: #e5f0fd;
+  --color-blue-2: #2B7FFF;
+  --color-blue-3: #111827;
+}
 
 h1 {
-  @apply text-3xl md:text-4xl font-semibold tracking-wider;
+  @apply text-3xl md:text-4xl lg:text-6xl font-semibold tracking-wider;
 }
 h2 {
   @apply text-2xl md:text-3xl lg:text-4xl text-[color:var(--color-secondary)] font-semibold;
 }
 h3 {
-  @apply text-base font-semibold lg:text-xl;
+  @apply text-base font-semibold lg:text-lg;
 }
 p {
-  @apply text-sm md:text-base lg:text-lg text-[color:var(--color-dark)];
+  @apply text-sm md:text-base text-[color:var(--color-dark)];
 }
 
 @layer utilities {
@@ -60,6 +72,31 @@ p {
   .button-hover-dark {
     @apply hover:bg-[color:var(--color-dark)] hover:text-[color:var(--color-primary)] transition-all duration-500 ease-linear;
   }
+  .smooth-hover {
+    @apply transition-all duration-500 ease-linear;
+  }
+  .slide-down-effect {
+    @apply absolute left-0 top-0 w-full h-full bg-white transition-transform duration-1000 -z-10;
+  }
+
+  .slide-down-hidden {
+    @apply -translate-y-full opacity-0 overflow-hidden;
+  }
+
+  .slide-down-visible {
+    @apply translate-y-0 opacity-100 overflow-visible;
+  }
+  .flex-box {
+    @apply flex items-center justify-center;
+  }
+  .bg-banner-home {
+    @apply bg-gradient-to-l from-[#05103680] to-[#051036] opacity-80;
+  }
+ 
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
 
 @keyframes slideFade {
