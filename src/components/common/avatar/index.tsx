@@ -1,22 +1,204 @@
+'use client';
+
+import { UserInfo } from '@/helper/type/type-user';
+import { RootState } from '@/redux/rootReducer';
+import { logout } from '@/redux/slice/user';
 import { motion } from 'framer-motion';
-import React, { useState } from 'react';
-import { twMerge } from 'tailwind-merge';
-import { logOut } from '@/components/common/Api/auth';
-import Link from 'next/link';
 import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { twMerge } from 'tailwind-merge';
+
+interface AvatarCustomNameProps {
+  name: string;
+  defaultSize?: number;
+  bgColor?: string;
+  textColor?: string;
+  className?: string;
+  userId?: number | string;
+}
+
+export const AvatarCustomName = ({
+  name,
+  defaultSize = 40,
+  bgColor = 'random',
+  textColor = 'FFFFFF',
+  userId,
+  className,
+}: AvatarCustomNameProps) => {
+  const [size, setSize] = useState(defaultSize);
+
+  // Hàm xử lý resize
+  const updateSize = () => {
+    if (window.innerWidth < 640) {
+      setSize(40); // Mobile
+    } else if (window.innerWidth < 1024) {
+      setSize(60); // Tablet
+    } else {
+      setSize(90); // Desktop
+    }
+  };
+
+  useEffect(() => {
+    updateSize(); // Cập nhật kích thước ban đầu
+    window.addEventListener('resize', updateSize);
+
+    return () => {
+      window.removeEventListener('resize', updateSize); // Cleanup
+    };
+  }, []);
+
+  // Tạo màu ngẫu nhiên nếu bgColor là 'random'
+  const getColorFromId = (id: number | string) => {
+    const colors = [
+      '1abc9c',
+      '2ecc71',
+      '3498db',
+      '9b59b6',
+      '34495e',
+      '16a085',
+      '27ae60',
+      '2980b9',
+      '8e44ad',
+      '2c3e50',
+      'f1c40f',
+      'e67e22',
+      'e74c3c',
+      '95a5a6',
+      'f39c12',
+      'd35400',
+      'c0392b',
+      'bdc3c7',
+      '7f8c8d',
+    ];
+    // Convert id to number if it's a string
+    const numericId = typeof id === 'string' ? parseInt(id, 10) : id;
+    // Use modulo to get a consistent index
+    return colors[Math.abs(numericId) % colors.length];
+  };
+
+  const finalBgColor =
+    bgColor === 'random' ? getColorFromId(userId || 0) : bgColor;
+  const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(
+    name || 'User',
+  )}&size=${size}&color=${textColor}&background=${finalBgColor}&rounded=true`;
+
+  return (
+    <div
+      className={twMerge(
+        'flex h-full w-full items-center justify-center rounded-full bg-gray-200',
+        className,
+      )}
+    >
+      <Image
+        src={avatarUrl}
+        alt={name}
+        width={size}
+        height={size}
+        className="h-full w-full rounded-full object-cover"
+      />
+    </div>
+  );
+};
+
+// interface AvatarProps {
+//   src?: string;
+//   alt?: string;
+//   size?: number;
+//   className?: string;
+//   name?: string;
+//   textColor?: string;
+//   bgColor?: string;
+//   userId?: number | string;
+// }
+
+// const AvatarImage = ({
+//   src,
+//   alt = 'Avatar',
+//   size = 40,
+//   className,
+//   name,
+//   textColor = 'fff',
+//   bgColor = 'random',
+//   userId,
+// }: AvatarProps) => {
+//   const isBase64 = src?.startsWith('data:image');
+//   const [error, setError] = useState(false);
+
+//   return (
+//     <div
+//       className={twMerge('relative overflow-hidden rounded-full', className)}
+//       style={{ width: size, height: size }}
+//     >
+//       {src && !error ? (
+//         <Image
+//           src={isBase64 ? src : src}
+//           alt={alt}
+//           width={size}
+//           height={size}
+//           className="h-full w-full object-cover"
+//           onError={() => setError(true)}
+//         />
+//       ) : (
+//         <AvatarCustomName
+//           name={name || alt}
+//           className="h-full w-full"
+//           defaultSize={size}
+//           textColor={textColor}
+//           bgColor={bgColor}
+//           userId={userId}
+//         />
+//       )}
+//     </div>
+//   );
+// };
+
 const Avatar = () => {
+  const dispatch = useDispatch();
+  const router = useRouter();
   const [hover, setHover] = useState(false);
-  const data: { title: string; link?: string }[] = [
-    { title: 'My Profile', link: '/user/profile' },
-    { title: 'Dashboard', link: '/user/dashboard' },
-    { title: 'Logout' },
-  ];
-  const logoutUser = logOut();
+  const pathname = usePathname();
+  const isLogin = useSelector((state: RootState) => state.user.isLogin);
+
+  const dataUser = useSelector(
+    (state: RootState) => state.user.info,
+  ) as UserInfo | null;
+
+  const avatarUser = dataUser?.avatar;
+
+  const nameUser = dataUser?.full_name || 'User';
+
+  const data: { id: number; title: string; link?: string }[] = isLogin
+    ? [
+        { id: 1, title: 'Dashboard', link: '/user/dashboard' },
+        { id: 2, title: 'Logout' },
+      ]
+    : [
+        { id: 1, title: 'Dashboard', link: '/user/dashboard' },
+        { id: 2, title: 'Login', link: '/auth/login' },
+      ];
+  const logoutUser = () => {
+    dispatch(logout());
+    toast.success('Logout successfully');
+    router.push('/auth/login');
+  };
+
+  const hoverEnabled = useMemo(() => {
+    const allowHoverPaths = ['/', '/home', '/detail', '/contact'];
+    return allowHoverPaths.some(
+      (allowedPath) =>
+        pathname === allowedPath || pathname.startsWith(allowedPath),
+    );
+  }, [pathname]);
+
   return (
     <div
       className="relative p-2"
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
+      onMouseEnter={() => hoverEnabled && setHover(true)}
+      onMouseLeave={() => hoverEnabled && setHover(false)}
     >
       <div
         className={twMerge(
@@ -24,13 +206,17 @@ const Avatar = () => {
           'block overflow-hidden object-center',
         )}
       >
-        <Image
-          className="h-24 w-24 object-cover"
-          src="/images/homePages/barcelona.jpg"
-          alt="avatar"
-          width={200}
-          height={200}
-        />
+        {avatarUser ? (
+          <Image
+            className="h-24 w-24 object-cover"
+            src={avatarUser}
+            alt={nameUser}
+            width={200}
+            height={200}
+          />
+        ) : (
+          <AvatarCustomName name={nameUser} className="h-full w-full" />
+        )}
       </div>
       <motion.div
         initial={{ opacity: 0, translateY: 20 }}
@@ -39,32 +225,28 @@ const Avatar = () => {
         className="absolute right-0 bottom-0 translate-y-full overflow-hidden rounded-lg bg-white"
       >
         <ul>
-          {data.map((item, index) => {
-            return (
-              <li
-                key={index}
-                className="smooth-hover px-5 py-1 hover:bg-gray-300 lg:px-10 lg:py-2"
-              >
-                {item.title === 'Logout' ? (
-                  <button
-                    className={twMerge('text-dark text-sm')}
-                    onClick={() => {
-                      logoutUser();
-                    }}
-                  >
-                    {item.title}
-                  </button>
-                ) : (
-                  <Link
-                    className={twMerge('text-dark text-sm')}
-                    href={item.link || ''}
-                  >
-                    {item.title}
-                  </Link>
-                )}
-              </li>
-            );
-          })}
+          {data.map((item) => (
+            <li
+              key={item.id}
+              className="smooth-hover cursor-pointer px-5 py-1 text-sm hover:bg-gray-300 lg:px-10 lg:py-3"
+              onClick={() => {
+                if (item.title === 'Logout') logoutUser();
+              }}
+            >
+              {item.link ? (
+                <Link
+                  href={item.link}
+                  className="block w-full text-sm text-black"
+                >
+                  {item.title}
+                </Link>
+              ) : (
+                <button className="block w-full text-sm text-black">
+                  {item.title}
+                </button>
+              )}
+            </li>
+          ))}
         </ul>
       </motion.div>
     </div>

@@ -1,5 +1,12 @@
-import { twMerge } from 'tailwind-merge';
+'use client';
+
 import Link from 'next/link';
+import React from 'react';
+import { GoPencil } from 'react-icons/go';
+import { IoAdd } from 'react-icons/io5';
+import { MdOutlineDeleteOutline } from 'react-icons/md';
+import { twMerge } from 'tailwind-merge';
+
 interface ButtonProps {
   href: string;
   children?: string | React.ReactNode;
@@ -75,3 +82,53 @@ export const ButtonCustom = ({
     </button>
   );
 };
+
+type ActionButtonsProps = {
+  id?: string | number;
+  basePath?: string;
+  onDelete?: () => void;
+  isDeleting?: boolean;
+};
+
+const ActionButtons: React.FC<ActionButtonsProps> = ({
+  id,
+  basePath,
+  onDelete,
+  isDeleting = false,
+}) => {
+  return (
+    <div className="flex items-center justify-center gap-2 md:gap-4">
+      <Link
+        href={`${basePath}/detail/${id}`}
+        className={twMerge(
+          'smooth-hover cursor-pointer rounded-md border p-1',
+          'border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white lg:text-lg',
+        )}
+      >
+        <IoAdd />
+      </Link>
+      <Link
+        href={`${basePath}/edit/${id}`}
+        className={twMerge(
+          'smooth-hover cursor-pointer rounded-md border p-1',
+          'border-green-500 text-green-500 hover:bg-green-500 hover:text-white lg:text-lg',
+        )}
+      >
+        <GoPencil />
+      </Link>
+      <button
+        onClick={onDelete}
+        disabled={isDeleting}
+        className={twMerge(
+          'smooth-hover cursor-pointer rounded-md border p-1',
+          'border-red-500 text-red-500 hover:bg-red-500 hover:text-white lg:text-lg',
+          isDeleting && 'cursor-not-allowed opacity-50',
+        )}
+      >
+        <MdOutlineDeleteOutline />
+      </button>
+    </div>
+  );
+};
+
+export default ActionButtons;

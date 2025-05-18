@@ -1,7 +1,7 @@
 // export let isProduction = import.meta.env.VITE_IS_PRODUCTION === "true";
 
-// export const BASE_DOMAIN_API =
-//   import.meta.env.VITE_BASE_DOMAIN_API || `http://localhost:3069/`;
+export const BASE_DOMAIN_API =
+  process.env.NEXT_PUBLIC_BASE_DOMAIN_API || `http://localhost:3069/`;
 export const ACCESS_TOKEN = `ACCESS_TOKEN`;
 export const REFRESH_TOKEN = `REFRESH_TOKEN`;
 export const USER = `USER`;

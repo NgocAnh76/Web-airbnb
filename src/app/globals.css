@@ -11,6 +11,7 @@
   --color-dark-2: #f5f6fc;
   --color-blue-1: #e5f0fd;
 
+
   font-family: var(--font-roboto), sans-serif;
   font-style: normal;
 
@@ -39,7 +40,10 @@ a:hover {
   --color-black: #000;
   --color-dark: #697488;
   --color-dark-2: #f5f6fc;
+  --color-dark-3: #eee;
   --color-blue-1: #e5f0fd;
+  --color-blue-2: #2B7FFF;
+  --color-blue-3: #111827;
 }
 
 h1 {
@@ -89,6 +93,10 @@ p {
     @apply bg-gradient-to-l from-[#05103680] to-[#051036] opacity-80;
   }
  
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
 
 @keyframes slideFade {

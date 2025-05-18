@@ -1,4 +1,9 @@
-export const LOCATIONS_FOREIGN = [
+export const LOCATIONS_FOREIGN: {
+  id: number;
+  name: string;
+  nation: number;
+  image: string;
+}[] = [
   {
     id: 1,
     name: 'New York',
