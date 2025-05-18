@@ -37,6 +37,7 @@ const AdminEditUserPage = () => {
       role_id: data?.role_id || '',
       avatar: data?.avatar || '',
     },
+
     validationSchema: editProfileValidationSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
