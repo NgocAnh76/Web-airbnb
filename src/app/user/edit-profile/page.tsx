@@ -37,7 +37,7 @@ const MenuEdit = () => {
           <li
             key={menu.id}
             className={twMerge(
-              'group border-dark-3 border-b py-3 hover:bg-gray-100',
+              'border-dark-3 group border-b py-3 hover:bg-gray-100',
               menu.id === 6 && 'rounded-b-lg border-b-0',
               menu.id === 1 && 'rounded-t-lg',
             )}
@@ -201,8 +201,9 @@ const EditProfile = () => {
               }}
             >
               {DATA_EDIT_PROFILE.map((data, i) => {
-                const value =
-                  formik.values[data.name as keyof typeof formik.values];
+                const value = String(
+                  formik.values[data.name as keyof typeof formik.values] || '',
+                );
                 const error =
                   formik.errors[data.name as keyof typeof formik.errors];
                 const touched =
@@ -214,7 +215,7 @@ const EditProfile = () => {
                       placeholder={data.placeholder}
                       label={data.placeholder}
                       name={data.name}
-                      value={String(value || '')}
+                      value={value}
                       onChange={(e) => formik.handleChange(e)}
                       onBlur={formik.handleBlur}
                       error={error}
