@@ -97,7 +97,7 @@ const EditProfile = () => {
       birth_day: dataUser?.birth_day || '',
       gender: dataUser?.gender || '',
       pass_word: dataUser?.pass_word || '',
-      role_id: dataUser?.role_id || '',
+      role_id: dataUser?.role_id || 2,
       avatar: dataUser?.avatar || '',
     },
     validationSchema: editProfileValidationSchema,
@@ -142,6 +142,42 @@ const EditProfile = () => {
       }
     },
   });
+
+  const renderSelectOptions = (name: string) => {
+    if (name === 'role_id') {
+      return (
+        <select
+          name={name}
+          value={formik.values.role_id}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          className="mt-3 w-full rounded-lg border border-primary/50 bg-white p-3 text-sm text-dark shadow-md outline-none focus:border-none focus:ring-2 focus:ring-primary/50 md:mt-5 md:p-4"
+        >
+          <option value="">Select role</option>
+          <option value="1">Admin</option>
+          <option value="2">User</option>
+        </select>
+      );
+    }
+    if (name === 'gender') {
+      return (
+        <select
+          name={name}
+          value={String(
+            formik.values[name as keyof typeof formik.values] || '',
+          )}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          className="mt-3 w-full rounded-lg border border-primary/50 bg-white p-3 text-sm text-dark shadow-md outline-none focus:border-none focus:ring-2 focus:ring-primary/50 md:mt-5 md:p-4"
+        >
+          <option value="">Select Gender</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+      );
+    }
+    return null;
+  };
 
   return (
     <>
@@ -199,31 +235,37 @@ const EditProfile = () => {
                 formik.handleSubmit(e);
               }}
             >
-              {DATA_EDIT_PROFILE.map((data, i) => {
-                const value =
-                  formik.values[data.name as keyof typeof formik.values];
-                const error =
-                  formik.errors[data.name as keyof typeof formik.errors];
+              {DATA_EDIT_PROFILE.map(({ placeholder, name, type }) => {
+                const value = formik.values[name as keyof typeof formik.values];
+                const error = formik.errors[name as keyof typeof formik.errors];
                 const touched =
-                  formik.touched[data.name as keyof typeof formik.touched];
+                  formik.touched[name as keyof typeof formik.touched];
                 return (
-                  <div key={i} className="relative py-3">
-                    <InputField
-                      type={data.type}
-                      placeholder={data.placeholder}
-                      label={data.placeholder}
-                      name={data.name}
-                      value={
-                        typeof value === 'number'
-                          ? value.toString()
-                          : (value as string) || ''
-                      }
-                      onChange={(e) => formik.handleChange(e)}
-                      onBlur={formik.handleBlur}
-                      error={error}
-                      touched={touched}
-                      disabled={data.name === 'role_id'}
-                    />
+                  <div key={name} className="relative">
+                    {type === 'select' ? (
+                      <div className="flex flex-col">
+                        <label className="mb-2 text-sm font-medium text-gray-700">
+                          {placeholder}
+                        </label>
+                        {renderSelectOptions(name)}
+                        {error && touched && (
+                          <p className="mt-1 text-sm text-red-500">{error}</p>
+                        )}
+                      </div>
+                    ) : (
+                      <InputField
+                        label={placeholder}
+                        name={name}
+                        placeholder={placeholder}
+                        value={String(value || '')}
+                        type={type}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        error={error as string}
+                        touched={touched as boolean}
+                        className="bg-gray-50"
+                      />
+                    )}
                   </div>
                 );
               })}
