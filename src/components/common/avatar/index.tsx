@@ -11,6 +11,36 @@ import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { twMerge } from 'tailwind-merge';
+import {
+  removeAccessToken,
+  removeUserInfo,
+} from '@/configs/api/cookie-service';
+
+// Custom hook để xử lý responsive size
+const useAvatarSize = (defaultSize: number) => {
+  const [size, setSize] = useState(defaultSize);
+
+  useEffect(() => {
+    const updateSize = () => {
+      if (window.innerWidth < 640) {
+        setSize(40); // Mobile
+      } else if (window.innerWidth < 1024) {
+        setSize(60); // Tablet
+      } else {
+        setSize(90); // Desktop
+      }
+    };
+
+    updateSize(); // Cập nhật kích thước ban đầu
+    window.addEventListener('resize', updateSize);
+
+    return () => {
+      window.removeEventListener('resize', updateSize);
+    };
+  }, []);
+
+  return size;
+};
 
 interface AvatarCustomNameProps {
   name: string;
@@ -29,27 +59,7 @@ export const AvatarCustomName = ({
   userId,
   className,
 }: AvatarCustomNameProps) => {
-  const [size, setSize] = useState(defaultSize);
-
-  // Hàm xử lý resize
-  const updateSize = () => {
-    if (window.innerWidth < 640) {
-      setSize(40); // Mobile
-    } else if (window.innerWidth < 1024) {
-      setSize(60); // Tablet
-    } else {
-      setSize(90); // Desktop
-    }
-  };
-
-  useEffect(() => {
-    updateSize(); // Cập nhật kích thước ban đầu
-    window.addEventListener('resize', updateSize);
-
-    return () => {
-      window.removeEventListener('resize', updateSize); // Cleanup
-    };
-  }, []);
+  const size = useAvatarSize(defaultSize);
 
   // Tạo màu ngẫu nhiên nếu bgColor là 'random'
   const getColorFromId = (id: number | string) => {
@@ -74,9 +84,7 @@ export const AvatarCustomName = ({
       'bdc3c7',
       '7f8c8d',
     ];
-    // Convert id to number if it's a string
     const numericId = typeof id === 'string' ? parseInt(id, 10) : id;
-    // Use modulo to get a consistent index
     return colors[Math.abs(numericId) % colors.length];
   };
 
@@ -118,27 +126,28 @@ interface AvatarProps {
 export const AvatarImage = ({
   src,
   alt = 'Avatar',
-  size = 40,
+  size = 60,
   className,
   name,
-  textColor = 'fff',
+  textColor = 'FFFFFF',
   bgColor = 'random',
   userId,
 }: AvatarProps) => {
   const isBase64 = src?.startsWith('data:image');
   const [error, setError] = useState(false);
+  const currentSize = useAvatarSize(size);
 
   return (
     <div
       className={twMerge('relative overflow-hidden rounded-full', className)}
-      style={{ width: size, height: size }}
+      style={{ width: currentSize, height: currentSize }}
     >
       {src && !error ? (
         <Image
           src={isBase64 ? src : src}
           alt={alt}
-          width={size}
-          height={size}
+          width={currentSize}
+          height={currentSize}
           className="h-full w-full object-cover"
           onError={() => setError(true)}
         />
@@ -146,7 +155,7 @@ export const AvatarImage = ({
         <AvatarCustomName
           name={name || alt}
           className="h-full w-full"
-          defaultSize={size}
+          defaultSize={currentSize}
           textColor={textColor}
           bgColor={bgColor}
           userId={userId}
@@ -181,6 +190,8 @@ const Avatar = () => {
         { id: 2, title: 'Login', link: '/auth/login' },
       ];
   const logoutUser = () => {
+    removeAccessToken();
+    removeUserInfo();
     dispatch(logout());
     toast.success('Logout successfully');
     router.push('/auth/login');
@@ -222,13 +233,13 @@ const Avatar = () => {
         initial={{ opacity: 0, translateY: 20 }}
         animate={{ opacity: hover ? 1 : 0, translateY: hover ? 0 : 20 }}
         transition={{ duration: 0.3 }}
-        className="absolute right-0 bottom-0 translate-y-full overflow-hidden rounded-lg bg-white"
+        className="absolute right-0 top-full overflow-hidden rounded-lg bg-white shadow-lg"
       >
         <ul>
           {data.map((item) => (
             <li
               key={item.id}
-              className="smooth-hover cursor-pointer px-5 py-1 text-sm hover:bg-gray-300 lg:px-10 lg:py-3"
+              className="smooth-hover cursor-pointer px-5 py-2 text-sm hover:bg-gray-300 lg:px-10 lg:py-3"
               onClick={() => {
                 if (item.title === 'Logout') logoutUser();
               }}

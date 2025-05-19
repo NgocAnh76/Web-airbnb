@@ -1,7 +1,7 @@
 import { ENDPOINT } from '@/helper/endpoint';
 import api from '../axios';
 import { TypeUpdateUser } from '@/helper/type/type-user';
-import { getAccessToken } from '../local-service';
+import { getAccessTokenLocal } from '../local-service';
 
 export const updateUser = async (
   data: TypeUpdateUser | FormData,
@@ -17,7 +17,7 @@ export const updateUser = async (
 };
 
 export const getUser = async () => {
-  const accessToken = getAccessToken();
+  const accessToken = getAccessTokenLocal();
   if (!accessToken) {
     throw new Error('Please login again');
   }

@@ -53,7 +53,7 @@ const LocationCard = ({ item, onHover, isHovered }: LocationCardProps) => (
       width={300}
       height={300}
     />
-    <div className="absolute top-0 left-0 flex items-center gap-2 p-10">
+    <div className="absolute left-0 top-0 flex items-center gap-2 p-10">
       <h3>{item.name_location}</h3>
       <Image
         className="block h-10 w-10 object-cover"
@@ -82,7 +82,7 @@ const SectionHeader = ({
   subtitle,
   showViewAll = false,
 }: SectionHeaderProps) => (
-  <div className="flex-box justify-between">
+  <div className="flex items-center justify-between">
     <div>
       <h2 className="mb-2 text-black">{title}</h2>
       <p className="text-base">{subtitle}</p>
@@ -92,8 +92,8 @@ const SectionHeader = ({
         <ButtonClient
           href="/"
           className={twMerge(
-            'flex-box text-primary bg-dark-2 smooth-hover hover:bg-primary px-10',
-            'border-primary border text-sm hover:border-none hover:text-white lg:text-base',
+            'flex-box smooth-hover bg-dark-2 px-10 text-primary hover:bg-primary',
+            'border border-primary text-sm hover:border-none hover:text-white lg:text-base',
           )}
         >
           View All Destinations <MdArrowOutward />
@@ -114,7 +114,7 @@ export const LocationForeign = () => {
 
   return (
     <section>
-      <div className="container mx-auto">
+      <div className="container">
         <div className="px-5 py-20">
           <SectionHeader
             title="Popular Destinations"

@@ -31,24 +31,24 @@ const SETTINGS_MENU = [
 
 const MenuEdit = () => {
   return (
-    <ul className="border-dark-3 hidden rounded-lg border lg:block lg:w-1/3">
+    <ul className="hidden rounded-lg border border-dark-3 lg:block lg:w-1/3">
       {SETTINGS_MENU.map((menu) => {
         return (
           <li
             key={menu.id}
             className={twMerge(
-              'border-dark-3 group border-b py-3 hover:bg-gray-100',
+              'group border-b border-dark-3 py-3 hover:bg-gray-100',
               menu.id === 6 && 'rounded-b-lg border-b-0',
               menu.id === 1 && 'rounded-t-lg',
             )}
           >
-            <div className="flex-box justify-start gap-2 px-3">
-              <div className="flex-box h-10 w-10 items-center justify-center rounded-full bg-gray-100">
-                <p className="group-hover:text-primary smooth-hover text-black">
+            <div className="flex items-center justify-start gap-2 px-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100">
+                <p className="smooth-hover text-black group-hover:text-primary">
                   {menu.icon}
                 </p>
               </div>
-              <p className="group-hover:text-primary smooth-hover">
+              <p className="smooth-hover group-hover:text-primary">
                 {menu.name}
               </p>
             </div>
@@ -145,10 +145,10 @@ const EditProfile = () => {
 
   return (
     <>
-      <div className="bg-primary h-full w-full pb-2">
+      <div className="h-full w-full bg-primary pb-2">
         <HeaderDashboard />
         <div className="container mx-auto">
-          <div className="flex-box justify-start px-5 pt-2">
+          <div className="flex items-center justify-start px-5 pt-2">
             <IoIosArrowRoundBack className="text-white lg:text-xl" />
             <Link
               href="/user/profile"
@@ -162,7 +162,7 @@ const EditProfile = () => {
       <div className="container mx-auto">
         <div className="px-5 py-10 md:px-10">
           {/* title */}
-          <div className="border-dark-3 flex w-full flex-col gap-5 border-b pb-7 md:flex-row md:justify-between">
+          <div className="flex w-full flex-col gap-5 border-b border-dark-3 pb-7 md:flex-row md:justify-between">
             <div className="w-3/5">
               <h2>Personal information</h2>
               <p>Update your information and learn how it is used.</p>
@@ -173,7 +173,6 @@ const EditProfile = () => {
                   <AvatarImage
                     src={previewUrl}
                     alt={dataUser?.full_name || 'User'}
-                    className="h-20 w-20"
                   />
                   <div className="absolute inset-0 flex items-center justify-center">
                     <input
@@ -182,7 +181,7 @@ const EditProfile = () => {
                       onChange={handleFileChange}
                       className="absolute inset-0 cursor-pointer opacity-0"
                     />
-                    <span className="rounded bg-black/50 px-2 py-1 text-sm text-white">
+                    <span className="rounded bg-black/50 px-2 py-1 text-[10px] text-white md:text-sm">
                       Edit Avatar
                     </span>
                   </div>
@@ -191,7 +190,7 @@ const EditProfile = () => {
             </div>
           </div>
           {/* input */}
-          <div className="flex-box items-start gap-10 pt-5 lg:pt-10">
+          <div className="flex items-start gap-10 pt-5 lg:pt-10">
             <MenuEdit />
             <form
               className="mb-8 w-full lg:w-2/3"
@@ -232,7 +231,7 @@ const EditProfile = () => {
                 <button
                   type="submit"
                   className={twMerge(
-                    'bg-primary smooth-hover hover:bg-secondary flex-box mt-8 w-2/5',
+                    'smooth-hover mt-8 flex w-2/5 items-center justify-center bg-primary hover:bg-secondary',
                     'rounded-lg py-3 text-lg text-white hover:text-white md:py-4 lg:mt-10',
                   )}
                 >

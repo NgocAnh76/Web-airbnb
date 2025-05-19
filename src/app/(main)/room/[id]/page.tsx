@@ -114,7 +114,7 @@ const PropertyHighlights = () => (
           className="flex items-center gap-2 text-center lg:gap-5"
           key={index}
         >
-          <p className="text-primary text-3xl">{highlight.icon}</p>
+          <p className="text-3xl text-primary">{highlight.icon}</p>
           <p className="">{highlight.label}</p>
         </li>
       ))}
@@ -183,9 +183,9 @@ const Comment = ({ roomId }: { roomId: number }) => {
       <div>
         <div className="mb-3">
           <h2>Comment</h2>
-          <p className="mt-2 ml-2 lg:ml-4">Peoples reviews of the room</p>
+          <p className="ml-2 mt-2 lg:ml-4">Peoples reviews of the room</p>
         </div>
-        <p className="border-gray-3 text-primary ml-2 flex items-center gap-2 rounded-lg border p-3 lg:ml-4 lg:w-1/2">
+        <p className="border-gray-3 ml-2 flex items-center gap-2 rounded-lg border p-3 text-primary lg:ml-4 lg:w-1/2">
           No reviews yet
           <div className="flex items-center text-yellow-400">
             <CiWarning /> <CiWarning /> <CiWarning />
@@ -204,13 +204,13 @@ const Comment = ({ roomId }: { roomId: number }) => {
         {data.map((comment) => (
           <li
             key={comment.comment_id}
-            className="border-dark-3 bg-dark-3 mb-2 rounded-lg border p-3 shadow-sm"
+            className="mb-2 rounded-lg border border-dark-3 bg-dark-3 p-3 shadow-sm"
           >
             <div className="flex items-start gap-2">
               <Avatar />
               <div>
                 <div>
-                  <h4 className="font-semibold text-black capitalize">
+                  <h4 className="font-semibold capitalize text-black">
                     {comment.users.full_name}
                   </h4>
                   <p className="flex items-center">
@@ -284,18 +284,18 @@ const DetailRoom = () => {
           <h1 className="max-w-3xs text-2xl font-bold text-black md:max-w-xl md:text-3xl lg:max-w-4xl lg:text-4xl">
             {data.room_name || 'No name available'}
           </h1>
-          <p className="flex-box justify-start gap-2 py-2">
-            <LuMapPin className="text-primary text-xl" />{' '}
+          <p className="flex items-center justify-start gap-2 py-2">
+            <LuMapPin className="text-xl text-primary" />{' '}
             {data.address || 'No address available'} -{' '}
             {data.locations?.province || 'No province available'}
           </p>
         </div>
 
-        <div className="flex-box justify-between py-3">
-          <p className="text-primary text-2xl font-bold lg:text-4xl">
+        <div className="flex items-center justify-between py-3">
+          <p className="text-2xl font-bold text-primary lg:text-4xl">
             {formatPrice(data.price || 0)}
           </p>
-          <button className="bg-primary hover:bg-secondary focus:bg-secondary smooth-hover rounded-lg px-4 py-2 text-white md:py-5 lg:px-15 lg:text-lg">
+          <button className="smooth-hover lg:px-15 rounded-lg bg-primary px-4 py-2 text-white hover:bg-secondary focus:bg-secondary md:py-5 lg:text-lg">
             Book now
           </button>
         </div>

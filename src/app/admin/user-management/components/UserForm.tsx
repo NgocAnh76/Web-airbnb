@@ -30,7 +30,7 @@ const UserForm = ({ mode, userId, initialData }: UserFormProps) => {
       birth_day: initialData?.birth_day || '',
       gender: initialData?.gender || '',
       pass_word: initialData?.pass_word || '',
-      role_id: initialData?.role_id || '2', // Default to user role
+      role_id: initialData?.role_id || 2, // Default to user role as number
       avatar: initialData?.avatar || '',
     },
     validationSchema: editProfileValidationSchema,
@@ -48,7 +48,7 @@ const UserForm = ({ mode, userId, initialData }: UserFormProps) => {
           birth_day: values.birth_day,
           gender: values.gender,
           pass_word: values.pass_word,
-          role_id: values.role_id,
+          role_id: Number(values.role_id), // Ensure role_id is a number
           avatar: values.avatar,
         } as TypeUpdateUser;
 
@@ -73,6 +73,42 @@ const UserForm = ({ mode, userId, initialData }: UserFormProps) => {
     },
   });
 
+  const renderSelectOptions = (name: string) => {
+    if (name === 'role_id') {
+      return (
+        <select
+          name={name}
+          value={formik.values.role_id}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          className="mt-3 w-full rounded-lg border border-primary/50 bg-white p-3 text-sm text-dark shadow-md outline-none focus:border-none focus:ring-2 focus:ring-primary/50 md:mt-5 md:p-4"
+        >
+          <option value="">Select role</option>
+          <option value="1">Admin</option>
+          <option value="2">User</option>
+        </select>
+      );
+    }
+    if (name === 'gender') {
+      return (
+        <select
+          name={name}
+          value={String(
+            formik.values[name as keyof typeof formik.values] || '',
+          )}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          className="mt-3 w-full rounded-lg border border-primary/50 bg-white p-3 text-sm text-dark shadow-md outline-none focus:border-none focus:ring-2 focus:ring-primary/50 md:mt-5 md:p-4"
+        >
+          <option value="">Select Gender</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+      );
+    }
+    return null;
+  };
+
   return (
     <div className="container mx-auto px-5 py-10">
       <h1 className="mb-8 text-2xl font-semibold text-gray-800">
@@ -80,43 +116,66 @@ const UserForm = ({ mode, userId, initialData }: UserFormProps) => {
       </h1>
 
       <form
-        className="mb-8 w-full lg:w-2/3"
+        className="mx-auto max-w-4xl rounded-lg bg-white p-6 shadow-lg"
         onSubmit={(e) => {
           e.preventDefault();
           formik.handleSubmit(e);
         }}
       >
-        {DATA_EDIT_PROFILE_ADMIN.map((data, i) => {
-          const value = formik.values[data.name as keyof typeof formik.values];
-          const error = formik.errors[data.name as keyof typeof formik.errors];
-          const touched =
-            formik.touched[data.name as keyof typeof formik.touched];
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          {DATA_EDIT_PROFILE_ADMIN.map(({ placeholder, name, type }) => {
+            const value = formik.values[name as keyof typeof formik.values];
+            const error = formik.errors[name as keyof typeof formik.errors];
+            const touched = formik.touched[name as keyof typeof formik.touched];
+            return (
+              <div key={name} className="relative">
+                {type === 'select' ? (
+                  <div className="flex flex-col">
+                    <label className="mb-2 text-sm font-medium text-gray-700">
+                      {placeholder}
+                    </label>
+                    {renderSelectOptions(name)}
+                    {error && touched && (
+                      <p className="mt-1 text-sm text-red-500">{error}</p>
+                    )}
+                  </div>
+                ) : (
+                  <InputField
+                    label={placeholder}
+                    name={name}
+                    placeholder={placeholder}
+                    value={String(value || '')}
+                    type={type}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={error as string}
+                    touched={touched as boolean}
+                    className="bg-gray-50"
+                  />
+                )}
+              </div>
+            );
+          })}
+        </div>
 
-          return (
-            <div key={i} className="relative py-3">
-              <InputField
-                type={data.type}
-                placeholder={data.placeholder}
-                label={data.placeholder}
-                name={data.name}
-                value={String(value || '')}
-                onChange={(e) => formik.handleChange(e)}
-                onBlur={formik.handleBlur}
-                error={error}
-                touched={touched}
-                disabled={data.name === 'role_id' && mode === 'edit'}
-              />
-            </div>
-          );
-        })}
+        <div className="mt-8 flex justify-end gap-4">
+          <button
+            type="button"
+            onClick={() => router.back()}
+            className={twMerge(
+              'smooth-hover flex-box w-32 rounded-lg border-2 border-primary py-3',
+              'text-lg font-medium text-primary hover:bg-primary hover:text-white',
+            )}
+          >
+            Cancel
+          </button>
 
-        <div className="flex gap-4">
           <button
             type="submit"
             disabled={isLoading}
             className={twMerge(
-              'bg-primary smooth-hover hover:bg-secondary flex-box mt-8 w-2/5',
-              'rounded-lg py-3 text-lg text-white hover:text-white md:py-4 lg:mt-10',
+              'smooth-hover flex-box w-32 rounded-lg bg-primary py-3',
+              'text-lg font-medium text-white hover:bg-secondary',
               isLoading && 'cursor-not-allowed opacity-50',
             )}
           >
@@ -125,17 +184,6 @@ const UserForm = ({ mode, userId, initialData }: UserFormProps) => {
               : mode === 'add'
                 ? 'Add User'
                 : 'Save Changes'}
-          </button>
-
-          <button
-            type="button"
-            onClick={() => router.back()}
-            className={twMerge(
-              'border-primary text-primary smooth-hover hover:bg-primary flex-box mt-8 w-2/5',
-              'rounded-lg border-2 py-3 text-lg hover:text-white md:py-4 lg:mt-10',
-            )}
-          >
-            Cancel
           </button>
         </div>
       </form>

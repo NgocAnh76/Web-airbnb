@@ -48,22 +48,23 @@ export const RectangleCard = ({
       >
         <Link href={link}></Link>
       </motion.div>
-      <motion.div
-        className="absolute bottom-5 left-1/2 -translate-x-1/2"
-        initial={{ y: 100 }}
-        animate={{ y: hover ? 0 : 100 }}
-        transition={{ duration: 0.4 }}
-      >
-        <div className="mb-5 text-center">
-          <h3 className="mb-10 text-lg text-white lg:text-xl">{title}</h3>
-          <Link
-            className="text-secondary mb-3 rounded-md bg-white px-20 py-4"
-            href={link}
-          >
-            Discover
-          </Link>
-        </div>
-      </motion.div>
+      <div className="absolute bottom-5 left-1/2 -translate-x-1/2">
+        <motion.div
+          initial={{ y: 100 }}
+          animate={{ y: hover ? 0 : 100 }}
+          transition={{ duration: 0.4 }}
+        >
+          <div className="mb-5 text-center">
+            <h3 className="mb-10 text-lg text-white lg:text-xl">{title}</h3>
+            <Link
+              className="mb-3 rounded-md bg-white px-20 py-4 text-secondary"
+              href={link}
+            >
+              Discover
+            </Link>
+          </div>
+        </motion.div>
+      </div>
     </div>
   );
 };
@@ -77,7 +78,7 @@ export const RoomCard = ({ data }: RoomCardProps) => {
       {data.map((data) => {
         return (
           <div
-            className="flex-box border-dark mx-2 my-2 gap-5 rounded-lg border p-3"
+            className="flex-box mx-2 my-2 gap-5 rounded-lg border border-dark p-3"
             key={data.room_id}
           >
             <div className="w-2/5">
@@ -97,7 +98,7 @@ export const RoomCard = ({ data }: RoomCardProps) => {
                 </p>
               </div>
               <div className="justify-between gap-5 md:flex">
-                <ul className="border-dark scrollbar-hide mt-3 h-24 w-full overflow-y-auto border-l-2 pl-2 md:mt-5 md:h-40 md:pl-3">
+                <ul className="scrollbar-hide mt-3 h-24 w-full overflow-y-auto border-l-2 border-dark pl-2 md:mt-5 md:h-40 md:pl-3">
                   <li>
                     <p>Living Room:</p>
                     <p>{data.living_room}</p>
@@ -154,7 +155,7 @@ export const RoomCard = ({ data }: RoomCardProps) => {
                   </p>
                   <ButtonClient
                     href={`/room/${data.room_id}`}
-                    className="bg-primary px-5 py-2 whitespace-nowrap text-white"
+                    className="whitespace-nowrap bg-primary px-5 py-2 text-white"
                   >
                     View Details
                   </ButtonClient>

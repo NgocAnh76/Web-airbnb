@@ -58,7 +58,7 @@ const DashboardClient = () => {
         </p>
         <div className="relative mt-2 h-2 rounded-full bg-gray-200 text-black">
           <div
-            className="absolute top-0 left-0 h-2 rounded-full bg-blue-500"
+            className="absolute left-0 top-0 h-2 rounded-full bg-blue-500"
             style={{
               width: `${((budget[1] - 50000) / (2000000 - 50000)) * 100}%`,
             }}
@@ -134,19 +134,19 @@ export const DashboardAdmin = () => {
         <li
           key={item.id}
           className={twMerge(
-            'group border-dark-3 border-b px-10 py-4',
+            'group border-b border-dark-3 px-10 py-4',
             pathname === item.href && 'bg-primary',
           )}
         >
           <Link
             href={item.href}
-            className="flex-box w-full justify-start gap-2 px-3"
+            className="flex w-full items-center justify-start gap-2 px-3"
           >
-            <p className="group-hover:text-primary smooth-hover text-white">
+            <p className="smooth-hover text-white group-hover:text-primary">
               {item.icon}
             </p>
 
-            <p className="group-hover:text-primary smooth-hover text-white">
+            <p className="smooth-hover text-white group-hover:text-primary">
               {item.name}
             </p>
           </Link>
