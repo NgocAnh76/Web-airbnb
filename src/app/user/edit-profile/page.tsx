@@ -214,7 +214,7 @@ const EditProfile = () => {
                       placeholder={data.placeholder}
                       label={data.placeholder}
                       name={data.name}
-                      value={value}
+                      value={String(value || '')}
                       onChange={(e) => formik.handleChange(e)}
                       onBlur={formik.handleBlur}
                       error={error}

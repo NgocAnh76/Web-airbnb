@@ -11,12 +11,12 @@ export default [
     ignores: ['.next', 'dist', 'build', 'node_modules'],
   },
   {
-    files: ['**/*.{ts,tsx}'],
+    files: ['**/*.ts', '**/*.tsx'],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
         project: './tsconfig.json',
-        ecmaVersion: '2023',
+        ecmaVersion: 'latest',
         sourceType: 'module',
         ecmaFeatures: {
           jsx: true,
@@ -31,6 +31,7 @@ export default [
       '@typescript-eslint': tseslint,
       react,
       'react-hooks': reactHooks,
+      next,
     },
     rules: {
       ...js.configs.recommended.rules,
