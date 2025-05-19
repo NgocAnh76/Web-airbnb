@@ -1,3 +1,4 @@
+import { ButtonClient } from '@/components/atoms/buttons';
 import React from 'react';
 
 const SupportClient = () => {
@@ -20,8 +21,17 @@ const SupportClient = () => {
   ];
   return (
     <>
-      <div className="container mx-auto">
-        <div className="mt-10 grid grid-cols-1 items-center gap-4 py-5 text-center md:grid-cols-2 lg:grid-cols-3 lg:py-16">
+      <div className="container">
+        <div className=" flex items-center justify-between px-5">
+          <h2>Support policy</h2>
+          <ButtonClient
+            href={'#'}
+            className="smooth-hover border-primary bg-white px-10 py-3 text-primary hover:bg-primary hover:text-white lg:px-16 lg:py-5 "
+          >
+            Learn More
+          </ButtonClient>
+        </div>
+        <div className=" grid grid-cols-1 items-center gap-4 py-5 text-center md:grid-cols-2 lg:grid-cols-3 lg:py-10">
           {data.map((item, index) => (
             <div key={index} className="my-3">
               <img

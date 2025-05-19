@@ -104,21 +104,21 @@ const YourProfile = () => {
   return (
     <>
       {/* header anb banner */}
-      <div className="bg-primary h-full w-full pb-5">
+      <div className="h-full w-full bg-primary pb-5">
         <HeaderDashboard />
         <div className="container mx-auto">
           <div className="px-5 pt-3">
-            <div className="flex-box mb-7 justify-start gap-5">
+            <div className="mb-7 flex items-center justify-start gap-5">
               <div>
                 <Avatar />
               </div>
-              <h2 className="text-white capitalize">Hello {nameUser}</h2>
+              <h2 className="capitalize text-white">Hello {nameUser}</h2>
             </div>
             <div className="mx-auto lg:w-4/5">
-              <div className="flex-box mb-3 rounded-md bg-white p-5">
-                <div className="flex-box w-full justify-between text-black">
-                  <div className="flex-box gap-3">
-                    <ImGift className="text-primary text-4xl" />
+              <div className="mb-3 flex items-center rounded-md bg-white p-5">
+                <div className="flex w-full items-center justify-between text-black">
+                  <div className="flex items-center gap-3">
+                    <ImGift className="text-4xl text-primary" />
                     <div>
                       <h3>You have 3 bonuses</h3>
                       <p>10% off and more</p>
@@ -127,9 +127,9 @@ const YourProfile = () => {
                   <IoIosArrowForward />
                 </div>
               </div>
-              <div className="flex-box justify-between rounded-md bg-white p-5 text-black">
+              <div className="flex items-center justify-between rounded-md bg-white p-5 text-black">
                 <p>No credit or voucher yet</p>
-                <div className="flex-box gap-2">
+                <div className="flex items-center gap-2">
                   <p className="text-base text-black">0</p>
                   <IoIosArrowForward />
                 </div>
@@ -144,7 +144,7 @@ const YourProfile = () => {
           <div className="py-5 lg:px-5">
             <div className="px-5 lg:px-0">
               <div className="rounded-md border border-gray-300 bg-white p-5 text-black">
-                <div className="flex-box mb-3 justify-between gap-3">
+                <div className="mb-3 flex items-center justify-between gap-3">
                   <div>
                     <h3 className="mb-2">Complete your profile</h3>
                     <p>
@@ -156,14 +156,14 @@ const YourProfile = () => {
                     <FaRegUserCircle className="text-3xl text-blue-400" />
                   </div>
                 </div>
-                <div className="flex-box justify-start gap-5">
+                <div className="flex items-center justify-start gap-5">
                   <Link
                     href="/user/edit-profile"
-                    className="bg-blue-2 border-blue-2 rounded-md border px-5 py-3 text-sm text-white"
+                    className="rounded-md border border-blue-2 bg-blue-2 px-5 py-3 text-sm text-white"
                   >
                     Complete now
                   </Link>
-                  <button className="border-blue-2 text-blue-2 rounded-md border px-5 py-3 text-sm">
+                  <button className="rounded-md border border-blue-2 px-5 py-3 text-sm text-blue-2">
                     Not now
                   </button>
                 </div>
@@ -182,9 +182,9 @@ const YourProfile = () => {
                       <div
                         key={subItem.id}
                         className={twMerge(
-                          'flex-box smooth-hover w-full justify-between rounded-md p-3 hover:bg-gray-100',
+                          'smooth-hover flex w-full items-center justify-between rounded-md p-3 hover:bg-gray-100',
                           index !== item.item.length - 1 &&
-                            'border-dark-3 border-b lg:border-b-0',
+                            'border-b border-dark-3 lg:border-b-0',
                         )}
                       >
                         <div className="flex-box gap-3">

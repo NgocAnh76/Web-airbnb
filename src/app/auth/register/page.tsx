@@ -52,13 +52,13 @@ const RegisterPage = () => {
     { placeholder: 'Gender', name: 'gender' },
   ];
   return (
-    <div className="mx-auto py-5 md:w-3/4 lg:w-1/2">
-      <div className="mx-5 my-10 rounded-lg bg-white p-8 md:p-14">
+    <div className="mx-auto mt-40 py-5 md:mt-0 md:w-3/4 lg:w-1/2 xl:h-[80%]">
+      <div className="mx-5 rounded-lg bg-white p-8 md:p-14">
         <div>
           <h2>Welcome black</h2>
-          <div className="flex-box mt-2 justify-start">
+          <div className="mt-2 flex items-center justify-start">
             <p>Already have an account yet?</p>
-            <Link href="/auth/login" className="text-primary ml-3">
+            <Link href="/auth/login" className="ml-3 text-primary">
               Login
             </Link>
           </div>
@@ -90,7 +90,7 @@ const RegisterPage = () => {
                     type="button"
                     onClick={togglePasswordVisibility}
                     className={twMerge(
-                      'absolute top-1/2 right-5 text-base text-gray-500 lg:text-xl',
+                      'absolute right-5 top-1/2 text-base text-gray-500 lg:text-xl',
                       formik.errors[data.name as keyof typeof formik.errors] &&
                         formik.touched[data.name as keyof typeof formik.touched]
                         ? '-translate-y-1/2 transform'
@@ -103,17 +103,17 @@ const RegisterPage = () => {
               </div>
             );
           })}
-          <div className="flex-box items-end justify-between">
+          <div className="flex items-end justify-between">
             <button
               type="submit"
-              className="bg-primary smooth-hover hover:bg-secondary flex-box mt-8 w-2/5 rounded-lg py-3 text-lg text-white hover:text-white md:py-4 lg:mt-10"
+              className="smooth-hover mt-8 w-2/5 rounded-lg bg-primary py-3 text-sm text-white hover:bg-secondary hover:text-white md:py-4 lg:mt-10"
             >
               Sign Up
             </button>
 
             <Link
               href="/"
-              className="text-primary flex-box ml-3 gap-2 text-sm lg:text-base"
+              className="ml-3 flex items-center gap-2 text-sm text-primary lg:text-base"
             >
               Back to Home <IoReturnDownBack />
             </Link>

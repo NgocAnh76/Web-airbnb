@@ -41,7 +41,7 @@ const MainHeader = () => {
       )}
     >
       <div className="container mx-auto">
-        <div className="flex-box justify-between px-3 md:px-10">
+        <div className="flex items-center justify-between px-3 md:px-10">
           <div className="flex-box gap-20">
             <LogoWhite />
             <MenuDesktop
@@ -53,7 +53,7 @@ const MainHeader = () => {
           <div className="hidden items-center gap-2 lg:ml-5 lg:flex">
             <ButtonClient
               href="/"
-              className="text-primary smooth-hover mr-5 bg-white py-3 text-sm whitespace-nowrap hover:bg-transparent hover:text-white"
+              className="text-primary smooth-hover mr-5 whitespace-nowrap bg-white py-3 text-sm hover:bg-transparent hover:text-white"
             >
               Become An Expert
             </ButtonClient>

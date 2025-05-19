@@ -113,14 +113,14 @@ const FooterMain = () => {
                   </p>
                 </div>
               </div>
-              <div className="flex-box items-end justify-start gap-3">
+              <div className="flex items-end justify-start gap-3">
                 <InputField
                   placeholder="Your Email"
-                  className="text-primary rounded-lg bg-white py-3 md:w-sm lg:w-md lg:py-5 lg:text-lg"
+                  className="md:w-sm lg:w-md rounded-lg bg-white py-3 text-sm text-primary lg:py-5"
                 />
                 <ButtonCustom
                   label="Subscribe"
-                  className="mt-3 py-3 font-medium md:px-10 md:py-5 lg:px-20 lg:text-base"
+                  className="mt-3 py-3 font-medium md:px-10 md:py-4 lg:px-10 "
                 />
               </div>
             </div>
@@ -128,7 +128,7 @@ const FooterMain = () => {
         </div>
         <div className="container mx-auto">
           {/* Footer center */}
-          <div className="border-dark/20 grid grid-cols-2 gap-5 border-b px-5 py-10 lg:grid-cols-3 lg:py-20">
+          <div className="grid grid-cols-2 gap-5 border-b border-dark/20 px-5 py-10 lg:grid-cols-3 lg:py-20">
             {DATA_FOOTER.map((item, index) => (
               <div key={index}>
                 <h3 className="mb-3 text-base font-semibold text-black lg:mb-5 lg:text-lg">
@@ -138,14 +138,14 @@ const FooterMain = () => {
                   {item.element.map((element, index) => (
                     <li key={index} className="mb-3 lg:mb-5">
                       <Link
-                        className="text-dark text-sm font-medium lg:text-base"
+                        className="text-sm font-medium text-dark lg:text-base"
                         href={element.link}
                       >
                         {element.label}
                       </Link>{' '}
                       <br />
                       <Link
-                        className="text-primary mt-2 text-sm lg:text-base"
+                        className="mt-2 text-sm text-primary lg:text-base"
                         href={element?.link}
                       >
                         {element?.subtitle}
@@ -159,7 +159,7 @@ const FooterMain = () => {
               <h3 className="mb-3 text-base font-semibold text-black lg:mb-5 lg:text-lg">
                 Mobile
               </h3>
-              <div className="flex-box border-dark/30 mb-5 justify-start gap-5 rounded-lg border p-3">
+              <div className="mb-5 flex items-center justify-start gap-5 rounded-lg border border-dark/30 p-3">
                 <FaApple className="text-4xl text-black" />
                 <div>
                   <p>Download on the</p>
@@ -168,7 +168,7 @@ const FooterMain = () => {
                   </p>
                 </div>
               </div>
-              <div className="flex-box border-dark/30 justify-start gap-5 rounded-lg border p-3">
+              <div className="flex items-center justify-start gap-5 rounded-lg border border-dark/30 p-3">
                 <FaGooglePlay className="text-4xl text-black" />
                 <div>
                   <p>Get in on</p>
@@ -186,11 +186,11 @@ const FooterMain = () => {
                 © 2025 <span className="text-primary">Travel</span>
               </p>
             </div>
-            <div className="flex-box gap-5 lg:gap-10">
-              <FaFacebookF className="text-primary hover:text-secondary text-lg lg:text-xl" />
-              <FaTwitter className="text-primary hover:text-secondary text-lg lg:text-xl" />
-              <FaInstagram className="text-primary hover:text-secondary text-lg lg:text-xl" />
-              <FaYoutube className="text-primary hover:text-secondary text-lg lg:text-xl" />
+            <div className="flex items-center gap-5 lg:gap-10">
+              <FaFacebookF className="text-lg text-primary hover:text-secondary lg:text-xl" />
+              <FaTwitter className="text-lg text-primary hover:text-secondary lg:text-xl" />
+              <FaInstagram className="text-lg text-primary hover:text-secondary lg:text-xl" />
+              <FaYoutube className="text-lg text-primary hover:text-secondary lg:text-xl" />
             </div>
           </div>
         </div>

@@ -52,7 +52,7 @@ export const BannerHome: React.FC<Props> = ({ backgroundImage }) => {
       },
       {
         title: 'Check in - Check out',
-        subTitle: 'Check xem nè',
+        subTitle: 'Check calendar',
         modal: <Calendar />,
       },
       {
@@ -87,12 +87,12 @@ export const BannerHome: React.FC<Props> = ({ backgroundImage }) => {
               <div className="mt-16">
                 <ul className="flex-box hide-scrollbar justify-start gap-8 overflow-x-auto md:justify-center">
                   {listService.map((item, i) => (
-                    <li key={i} className="py-3 whitespace-nowrap">
+                    <li key={i} className="whitespace-nowrap py-3">
                       <Link
                         href={item.link}
                         onClick={() => setActive(item.label)}
                         className={`pb-3 ${
-                          active === item.label ? 'border-dark border-b-2' : ''
+                          active === item.label ? 'border-b-2 border-dark' : ''
                         }`}
                       >
                         {item.label}
@@ -108,7 +108,7 @@ export const BannerHome: React.FC<Props> = ({ backgroundImage }) => {
                       ref={(el: HTMLLIElement | null) => {
                         liRefs.current[i] = el;
                       }}
-                      className="border-dark-2 block border-b-2 p-4 whitespace-nowrap lg:relative lg:w-1/4"
+                      className="block whitespace-nowrap border-b-2 border-dark-2 p-4 lg:relative lg:w-1/4"
                       onClick={() => handleClick(i)}
                     >
                       <h3 className="font-medium text-black">{item.title}</h3>
@@ -127,7 +127,7 @@ export const BannerHome: React.FC<Props> = ({ backgroundImage }) => {
                     </li>
                   ))}
 
-                  <button className="bg-primary flex-box mx-auto mt-3 rounded-lg px-16 py-5 font-semibold md:px-40 lg:mt-0 lg:rounded-full lg:px-12">
+                  <button className="flex-box mx-auto mt-3 rounded-lg bg-primary px-16 py-5 font-semibold md:px-40 lg:mt-0 lg:rounded-full lg:px-12">
                     <CiSearch className="mr-3 text-2xl" />
                     Search
                   </button>

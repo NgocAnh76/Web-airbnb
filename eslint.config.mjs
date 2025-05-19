@@ -31,7 +31,6 @@ export default [
       '@typescript-eslint': tseslint,
       react,
       'react-hooks': reactHooks,
-      next,
     },
     rules: {
       ...js.configs.recommended.rules,

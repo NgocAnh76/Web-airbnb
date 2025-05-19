@@ -20,6 +20,6 @@ export interface TypeUpdateUser {
   birth_day: string;
   gender: string;
   pass_word: string;
-  role_id: string;
+  role_id: number;
   avatar: string;
 }

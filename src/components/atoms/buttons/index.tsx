@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import React from 'react';
 import { GoPencil } from 'react-icons/go';
-import { IoAdd } from 'react-icons/io5';
 import { MdOutlineDeleteOutline } from 'react-icons/md';
 import { twMerge } from 'tailwind-merge';
 
@@ -21,7 +20,7 @@ export const ButtonClient = ({
     <Link
       href={href}
       className={twMerge(
-        'smooth-hover rounded-md border-2 border-white p-5',
+        'smooth-hover rounded-md border border-white p-5',
         className,
       )}
     >
@@ -44,9 +43,9 @@ export const SocialButton = ({
 }: SocialButtonProps) => (
   <button
     className={twMerge(
-      `mt-5 flex w-full flex-1 cursor-pointer items-center justify-center rounded-xl border-2 py-3 transition-all duration-300 ease-linear md:w-auto lg:py-5`,
+      `mt-5 flex w-full flex-1 cursor-pointer items-center justify-center rounded-xl border py-3 transition-all duration-300 ease-linear md:w-auto lg:py-5`,
       color == 'primary' &&
-        'text-primary hover:bg-primary focus:bg-primary bg-white hover:text-white focus:text-white',
+        'bg-white text-primary hover:bg-primary hover:text-white focus:bg-primary focus:text-white',
       color == 'text-red-500' &&
         'bg-white text-red-500 hover:bg-red-500 hover:text-white focus:bg-red-500 focus:text-white',
       className,
@@ -70,9 +69,9 @@ export const ButtonCustom = ({
     <button
       className={twMerge(
         'bg-primary px-7 py-5 text-sm text-white md:text-base',
-        'border-primary cursor-pointer rounded-lg border-2 shadow-md',
-        'hover:bg-secondary transition-all duration-300 ease-linear',
-        'focus:bg-secondary hover:text-white focus:text-white',
+        'cursor-pointer rounded-lg border-2 border-primary shadow-md',
+        'transition-all duration-300 ease-linear hover:bg-secondary',
+        'hover:text-white focus:bg-secondary focus:text-white',
         'disabled:cursor-not-allowed disabled:opacity-50',
         className,
       )}
@@ -98,15 +97,6 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
 }) => {
   return (
     <div className="flex items-center justify-center gap-2 md:gap-4">
-      <Link
-        href={`${basePath}/detail/${id}`}
-        className={twMerge(
-          'smooth-hover cursor-pointer rounded-md border p-1',
-          'border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white lg:text-lg',
-        )}
-      >
-        <IoAdd />
-      </Link>
       <Link
         href={`${basePath}/edit/${id}`}
         className={twMerge(

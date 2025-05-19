@@ -1,12 +1,12 @@
-import { getAccessToken, getUser } from '../../local-service';
 import type { AxiosInstance } from 'axios';
+import { getAccessTokenLocal, getUser } from '../../local-service';
 
 export function SetupRequestInterceptor(api: AxiosInstance) {
   api.interceptors.request.use(async (config) => {
     try {
       config.url = `${api.defaults.baseURL}${config.url}`;
 
-      const accessToken = await getAccessToken();
+      const accessToken = await getAccessTokenLocal();
       if (accessToken) {
         config.headers.Authorization = `Bearer ${accessToken}`;
       }

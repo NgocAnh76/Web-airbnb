@@ -1,22 +1,22 @@
-import React from "react";
-import { FiMapPin } from "react-icons/fi";
+import React from 'react';
+import { FiMapPin } from 'react-icons/fi';
 const Location = () => {
   const data: { name: string; location: string }[] = [
-    { name: "New York", location: "New York State, United States" },
-    { name: "Paris", location: "France" },
-    { name: "Madrid", location: "Spain" },
-    { name: "Santorini", location: "Greece" },
+    { name: 'New York', location: 'New York State, United States' },
+    { name: 'Paris', location: 'France' },
+    { name: 'Madrid', location: 'Spain' },
+    { name: 'Santorini', location: 'Greece' },
   ];
   return (
     <div className="px-10 md:w-[500px]">
-      <ul className="p-5 bg-white text-black rounded-sm">
+      <ul className="rounded-sm bg-white p-5 text-black">
         {data.map((item, i) => {
           return (
             <li
               key={i}
-              className="flex-box justify-start p-3 hover:bg-dark-2 smooth-hover"
+              className="smooth-hover flex items-center justify-start p-3 hover:bg-dark-2"
             >
-              <FiMapPin className="text-2xl mr-3 text-dark" />
+              <FiMapPin className="mr-3 text-2xl text-dark" />
               <div>
                 <h3>{item.name}</h3>
                 <p>{item.location}</p>

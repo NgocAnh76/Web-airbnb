@@ -48,7 +48,7 @@ const HomeComment = () => {
                 Aenean eu enim justo.
               </p>
             </div>
-            <div className="flex-box w-4/5 items-start justify-between">
+            <div className="flex w-4/5 items-start justify-between">
               <div>
                 <h2>13m+</h2>
                 <p className="py-2">Happy People</p>
@@ -56,7 +56,7 @@ const HomeComment = () => {
               <div>
                 <h2>4.88</h2>
                 <p className="py-2">Overall Rating</p>
-                <div className="flex-box text-yellow-500">
+                <div className="flex items-center text-yellow-500">
                   <FaStar />
                   <FaStar />
                   <FaStar />
@@ -77,7 +77,7 @@ const HomeComment = () => {
               {dataComment.map((item, index) => (
                 <SwiperSlide key={index}>
                   <div className="">
-                    <div className="flex-box mb-3 justify-start gap-3">
+                    <div className="mb-3 flex items-center justify-start gap-3">
                       <div className="h-20 w-20 lg:h-28 lg:w-28">
                         <img className="object-cover" src={item.image} alt="" />
                       </div>

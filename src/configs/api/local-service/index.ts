@@ -9,12 +9,12 @@ import { UserInfo } from '@/helper/type/type-user';
 // Kiểm tra xem code có đang chạy ở browser không
 const isBrowser = typeof window !== 'undefined';
 
-export function getAccessToken() {
+export function getAccessTokenLocal() {
   if (!isBrowser) return null;
   return localStorage.getItem(ACCESS_TOKEN);
 }
 
-export function setAccessToken(token: string) {
+export function setAccessTokenLocal(token: string) {
   if (!isBrowser) return;
   localStorage.setItem(ACCESS_TOKEN, token);
 }
