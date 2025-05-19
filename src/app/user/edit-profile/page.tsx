@@ -118,18 +118,18 @@ const EditProfile = () => {
           avatar: values.avatar,
         } as TypeUpdateUser;
 
-        if (avatar) {
-          const formData = new FormData();
-          Object.keys(userData).forEach((key) => {
-            if (key !== 'avatar') {
-              formData.append(key, userData[key as keyof typeof userData]);
-            }
-          });
-          formData.append('avatar', avatar);
-          await updateUser(formData, IdUser);
-        } else {
-          await updateUser(userData, IdUser);
-        }
+        // if (avatar) {
+        //   const formData = new FormData();
+        //   Object.keys(userData).forEach((key) => {
+        //     if (key !== 'avatar') {
+        //       formData.append(key, userData[key as keyof typeof userData]);
+        //     }
+        //   });
+        //   formData.append('avatar', avatar);
+        //   await updateUser(formData, IdUser);
+        // } else {
+        //   await updateUser(userData, IdUser);
+        // }
 
         // Reload user data after update
         const updatedUser = await getUserById(IdUser);
