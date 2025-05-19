@@ -201,9 +201,8 @@ const EditProfile = () => {
               }}
             >
               {DATA_EDIT_PROFILE.map((data, i) => {
-                const value = String(
-                  formik.values[data.name as keyof typeof formik.values] || '',
-                );
+                const value =
+                  formik.values[data.name as keyof typeof formik.values];
                 const error =
                   formik.errors[data.name as keyof typeof formik.errors];
                 const touched =
@@ -215,7 +214,11 @@ const EditProfile = () => {
                       placeholder={data.placeholder}
                       label={data.placeholder}
                       name={data.name}
-                      value={value}
+                      value={
+                        typeof value === 'number'
+                          ? value.toString()
+                          : (value as string) || ''
+                      }
                       onChange={(e) => formik.handleChange(e)}
                       onBlur={formik.handleBlur}
                       error={error}
