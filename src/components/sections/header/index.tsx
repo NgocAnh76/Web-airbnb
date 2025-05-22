@@ -31,13 +31,14 @@ const MainHeader = () => {
   }, []);
 
   const isRoomPage = pathname.includes('/room/'); // check if the current path is a room page
+  const isContactPage = pathname === '/contact'; // check if the current path is a contact page
 
   const userLogin = getUser();
   return (
     <header
       className={twMerge(
         `smooth-hover fixed z-[998] w-full`,
-        ` ${isRoomPage ? 'bg-secondary' : scrolled ? 'bg-secondary' : ''}`,
+        ` ${isRoomPage || isContactPage ? 'bg-secondary' : scrolled ? 'bg-secondary' : ''}`,
       )}
     >
       <div className="container mx-auto">
@@ -53,7 +54,7 @@ const MainHeader = () => {
           <div className="hidden items-center gap-2 lg:ml-5 lg:flex">
             <ButtonClient
               href="/"
-              className="text-primary smooth-hover mr-5 whitespace-nowrap bg-white py-3 text-sm hover:bg-transparent hover:text-white"
+              className="smooth-hover mr-5 whitespace-nowrap bg-white py-3 text-sm text-primary hover:bg-transparent hover:text-white"
             >
               Become An Expert
             </ButtonClient>
