@@ -16,4 +16,5 @@ export const ENDPOINT = {
   },
   COMMENT: 'comments',
   USER: `user`,
+  AVATAR_UPLOAD: `user/avatar-cloud`,
 };

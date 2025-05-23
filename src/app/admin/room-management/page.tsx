@@ -6,6 +6,9 @@ import { RoomInfo } from '@/helper/type/room';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
+import '../management.css';
+import Link from 'next/link';
+import { twMerge } from 'tailwind-merge';
 
 const RoomManagement = () => {
   const queryClient = useQueryClient();
@@ -46,52 +49,65 @@ const RoomManagement = () => {
 
   return (
     <div className="">
-      <div className="container mx-auto">
-        <div className="mt-8">
-          <h1 className="text-2xl font-semibold text-gray-800">
-            Room Management
-          </h1>
-          <p className="mt-2 text-gray-600">
-            View and manage room information in the system
-          </p>
-        </div>
-        <div className="scrollbar w-full overflow-x-scroll rounded-lg bg-white px-5 py-10 shadow-md md:overflow-auto lg:w-4/5">
-          <table className="w-full text-black">
-            <thead>
-              <tr className="border-b border-gray-200 text-sm lg:text-base">
-                {tableData.map((item) => (
-                  <th key={item.id} className="pb-4 text-left">
-                    {item.name}
-                  </th>
-                ))}
-                <th className="pb-4 text-left"></th>
-              </tr>
-            </thead>
-            <tbody>
-              {data?.map((room: RoomInfo) => (
-                <tr
-                  key={room.room_id}
-                  className="border-b border-gray-100 text-sm hover:bg-gray-50"
-                >
-                  <td className="py-4">{room.room_id}</td>
-                  <td className="py-4">{room.room_name}</td>
-                  {/* <td className="py-4">{room.locations.province}</td> */}
-                  <td className="py-4">{room.price}</td>
-                  <td className="py-4">{room.address}</td>
-                  <td className="py-4">{room.description}</td>
-
-                  <td className="py-4">
-                    <ActionButtons
-                      id={room.room_id}
-                      basePath="/admin/room-management"
-                      onDelete={() => handleDelete(room.room_id)}
-                      isDeleting={deletingId === room.room_id}
-                    />
-                  </td>
+      <div className="container">
+        <div className="p-10">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-semibold text-gray-800">
+                Room Management
+              </h1>
+              <p className="mt-2 text-gray-600">
+                View and manage room information in the system
+              </p>
+            </div>
+            <Link
+              href="/admin/room-management/add"
+              className={twMerge(
+                'smooth-hover bg-primary text-sm hover:bg-secondary',
+                'rounded-lg px-6 py-3 text-white',
+                'hover:text-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2',
+              )}
+            >
+              Add New Location
+            </Link>
+          </div>
+          <div className="scrollbar w-full overflow-x-scroll rounded-lg bg-white px-5 py-10 shadow-md md:overflow-auto lg:w-4/5">
+            <table className="w-full text-black">
+              <thead>
+                <tr className="border-b border-gray-200 text-sm lg:text-base">
+                  {tableData.map((item) => (
+                    <th key={item.id} className="pb-4 text-left">
+                      {item.name}
+                    </th>
+                  ))}
+                  <th className="pb-4 text-left"></th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {data?.map((room: RoomInfo) => (
+                  <tr
+                    key={room.room_id}
+                    className="border-b border-gray-100 text-sm hover:bg-gray-50"
+                  >
+                    <td className="py-4">{room.room_id}</td>
+                    <td className="py-4">{room.room_name}</td>
+                    <td className="py-4">{room.price}</td>
+                    <td className="py-4">{room.address}</td>
+                    <td className="py-4">{room.description}</td>
+
+                    <td className="py-4">
+                      <ActionButtons
+                        id={room.room_id}
+                        basePath="/admin/room-management"
+                        onDelete={() => handleDelete(room.room_id)}
+                        isDeleting={deletingId === room.room_id}
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

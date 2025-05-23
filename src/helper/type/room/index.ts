@@ -46,3 +46,25 @@ export interface RoomInfo {
     province: string;
   };
 }
+
+export interface RoomForms {
+  room_id: number;
+  room_name: string;
+  living_room: string;
+  bedroom: string;
+  bed: string;
+  bathroom: string;
+  description: string;
+  price: number;
+  washing_machine: boolean;
+  iron: boolean;
+  television: boolean;
+  air_conditioner: boolean;
+  wifi: boolean;
+  kitchen: boolean;
+  parking: boolean;
+  pool: boolean;
+  image: string;
+  location_id: number;
+  address: string;
+}

@@ -12,6 +12,8 @@ interface InputFieldProps {
   touched?: boolean;
   className?: string;
   disabled?: boolean;
+  accept?: string;
+  min?: number;
 }
 
 export const InputField: React.FC<InputFieldProps> = ({
@@ -26,6 +28,8 @@ export const InputField: React.FC<InputFieldProps> = ({
   touched,
   className,
   disabled,
+  accept,
+  min,
 }) => {
   return (
     <div>
@@ -40,6 +44,8 @@ export const InputField: React.FC<InputFieldProps> = ({
         onChange={onChange}
         onBlur={onBlur}
         disabled={disabled}
+        accept={accept}
+        min={min}
         className={twMerge(
           'mt-3 w-full rounded-lg border border-primary/50 p-3 text-sm text-dark shadow-md focus:ring-primary/50',
           'bg-white outline-none placeholder:text-sm focus:border-none focus:ring-2 md:mt-5 md:p-4',
