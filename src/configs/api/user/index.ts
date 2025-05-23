@@ -38,3 +38,17 @@ export const deleteUser = async (id: number) => {
   const response = await api.delete(`${ENDPOINT.USER}/${id}`);
   return response.data.metaData;
 };
+
+export const updateUserAvatar = async (data: FormData) => {
+  const accessToken = getAccessTokenLocal();
+  if (!accessToken) {
+    throw new Error('Please login again');
+  }
+  const response = await api.post(ENDPOINT.AVATAR_UPLOAD, data, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+  return response.data.metaData;
+};

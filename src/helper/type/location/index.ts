@@ -5,3 +5,10 @@ export interface LocationInfo {
   image_location: string;
   nation: number;
 }
+
+export interface LocationForms {
+  name_location: string;
+  province: string;
+  image_location: string;
+  nation: number;
+}

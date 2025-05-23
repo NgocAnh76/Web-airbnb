@@ -128,7 +128,7 @@ const UserForm = ({ mode, userId, initialData }: UserFormProps) => {
             const error = formik.errors[name as keyof typeof formik.errors];
             const touched = formik.touched[name as keyof typeof formik.touched];
             return (
-              <div key={name} className="relative">
+              <div key={name} className="relative mb-3">
                 {type === 'select' ? (
                   <div className="flex flex-col">
                     <label className="mb-2 text-sm font-medium text-gray-700">
@@ -164,7 +164,7 @@ const UserForm = ({ mode, userId, initialData }: UserFormProps) => {
             onClick={() => router.back()}
             className={twMerge(
               'smooth-hover flex-box w-32 rounded-lg border-2 border-primary py-3',
-              'text-lg font-medium text-primary hover:bg-primary hover:text-white',
+              'text-sm font-medium text-primary hover:bg-primary hover:text-white',
             )}
           >
             Cancel
@@ -175,7 +175,7 @@ const UserForm = ({ mode, userId, initialData }: UserFormProps) => {
             disabled={isLoading}
             className={twMerge(
               'smooth-hover flex-box w-32 rounded-lg bg-primary py-3',
-              'text-lg font-medium text-white hover:bg-secondary',
+              'text-sm font-medium text-white hover:bg-secondary',
               isLoading && 'cursor-not-allowed opacity-50',
             )}
           >

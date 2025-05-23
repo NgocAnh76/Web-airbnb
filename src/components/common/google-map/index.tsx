@@ -4,24 +4,43 @@ import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 
 const containerStyle = {
   width: '100%',
-  height: '100vh',
+  height: '100%',
 };
 
 const center = {
-  lat: 37.7749,
-  lng: -122.4194,
+  lat: 10.762622, // Tọa độ Việt Nam
+  lng: 106.660172,
+};
+
+const options = {
+  disableDefaultUI: false,
+  zoomControl: true,
+  streetViewControl: true,
+  scaleControl: true,
+  mapTypeControl: true,
+  fullscreenControl: true,
 };
 
 const GoogleMaps = () => {
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
-    googleMapsApiKey: 'YOUR_GOOGLE_MAPS_API_KEY',
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
   });
 
-  if (!isLoaded) return <div>Loading...</div>;
+  if (!isLoaded)
+    return (
+      <div className="flex h-full w-full items-center justify-center">
+        Loading...
+      </div>
+    );
 
   return (
-    <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={12} />
+    <GoogleMap
+      mapContainerStyle={containerStyle}
+      center={center}
+      zoom={15}
+      options={options}
+    />
   );
 };
 

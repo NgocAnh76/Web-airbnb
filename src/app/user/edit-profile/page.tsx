@@ -4,7 +4,7 @@ import { DATA_EDIT_PROFILE } from '@/components/atoms/input/data.input';
 import { AvatarImage } from '@/components/common/avatar';
 import HeaderDashboard from '@/components/common/header/headerDashboard';
 import { editProfileValidationSchema } from '@/components/common/schemaValidation';
-import { updateUser, getUserById } from '@/configs/api/user';
+import { updateUser, getUserById, updateUserAvatar } from '@/configs/api/user';
 import { TypeUpdateUser, UserInfo } from '@/helper/type/type-user';
 import { RootState } from '@/redux/rootReducer';
 import { useFormik } from 'formik';
@@ -29,41 +29,33 @@ const SETTINGS_MENU = [
   { id: 6, name: 'Privacy & Data Management', icon: <BsShieldLock /> },
 ];
 
-const MenuEdit = () => {
-  return (
-    <ul className="hidden rounded-lg border border-dark-3 lg:block lg:w-1/3">
-      {SETTINGS_MENU.map((menu) => {
-        return (
-          <li
-            key={menu.id}
-            className={twMerge(
-              'group border-b border-dark-3 py-3 hover:bg-gray-100',
-              menu.id === 6 && 'rounded-b-lg border-b-0',
-              menu.id === 1 && 'rounded-t-lg',
-            )}
-          >
-            <div className="flex items-center justify-start gap-2 px-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100">
-                <p className="smooth-hover text-black group-hover:text-primary">
-                  {menu.icon}
-                </p>
-              </div>
-              <p className="smooth-hover group-hover:text-primary">
-                {menu.name}
-              </p>
-            </div>
-          </li>
-        );
-      })}
-    </ul>
-  );
-};
+const MenuEdit = () => (
+  <ul className="hidden rounded-lg border border-dark-3 lg:block lg:w-1/3">
+    {SETTINGS_MENU.map((menu) => (
+      <li
+        key={menu.id}
+        className={twMerge(
+          'group border-b border-dark-3 py-3 hover:bg-gray-100',
+          menu.id === 6 && 'rounded-b-lg border-b-0',
+          menu.id === 1 && 'rounded-t-lg',
+        )}
+      >
+        <div className="flex items-center justify-start gap-2 px-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100">
+            <p className="smooth-hover text-black group-hover:text-primary">
+              {menu.icon}
+            </p>
+          </div>
+          <p className="smooth-hover group-hover:text-primary">{menu.name}</p>
+        </div>
+      </li>
+    ))}
+  </ul>
+);
 
 const EditProfile = () => {
-  const [avatar, setAvatar] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>('');
   const dispatch = useDispatch();
-
   const dataUser = useSelector(
     (state: RootState) => state.user.info,
   ) as UserInfo | null;
@@ -74,20 +66,20 @@ const EditProfile = () => {
     }
   }, [dataUser]);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      setAvatar(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64String = reader.result as string;
-        setPreviewUrl(base64String);
-      };
-      reader.readAsDataURL(file);
+    if (!file) return;
+
+    try {
+      const formData = new FormData();
+      formData.append('avatar', file);
+      const response = await updateUserAvatar(formData);
+      setPreviewUrl(response.imgUrl);
+      toast.success('Avatar updated successfully');
+    } catch (error) {
+      toast.error('Failed to update avatar');
     }
   };
-
-  const IdUser = dataUser?.user_id || 0;
 
   const formik = useFormik({
     initialValues: {
@@ -102,64 +94,38 @@ const EditProfile = () => {
     },
     validationSchema: editProfileValidationSchema,
     onSubmit: async (values) => {
-      if (Object.keys(formik.errors).length > 0) {
-        return;
-      }
-
       try {
-        const userData = {
-          email: values.email,
-          full_name: values.full_name,
-          phone: values.phone,
-          birth_day: values.birth_day,
-          gender: values.gender,
-          pass_word: values.pass_word,
-          role_id: values.role_id,
-          avatar: values.avatar,
-        } as TypeUpdateUser;
+        const userData: TypeUpdateUser = {
+          ...values,
+        };
 
-        // if (avatar) {
-        //   const formData = new FormData();
-        //   Object.keys(userData).forEach((key) => {
-        //     if (key !== 'avatar') {
-        //       formData.append(key, userData[key as keyof typeof userData]);
-        //     }
-        //   });
-        //   formData.append('avatar', avatar);
-        //   await updateUser(formData, IdUser);
-        // } else {
-        //   await updateUser(userData, IdUser);
-        // }
+        await updateUser(userData, dataUser?.user_id || 0);
+        const updatedUser = await getUserById(dataUser?.user_id || 0);
 
-        // Reload user data after update
-        const updatedUser = await getUserById(IdUser);
         dispatch(setUserInfo(updatedUser));
         setUser(updatedUser);
-
-        toast.success('Update profile successfully');
+        toast.success('Profile updated successfully');
       } catch (error) {
-        console.log(error);
+        toast.error('Failed to update profile');
       }
     },
   });
 
   const renderSelectOptions = (name: string) => {
-    if (name === 'role_id') {
-      return (
-        <select
-          name={name}
-          value={formik.values.role_id}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          className="mt-3 w-full rounded-lg border border-primary/50 bg-white p-3 text-sm text-dark shadow-md outline-none focus:border-none focus:ring-2 focus:ring-primary/50 md:mt-5 md:p-4"
-        >
-          <option value="">Select role</option>
-          <option value="1">Admin</option>
-          <option value="2">User</option>
-        </select>
-      );
-    }
-    if (name === 'gender') {
+    const options = {
+      role_id: [
+        { value: '', label: 'Select role' },
+        { value: '1', label: 'Admin' },
+        { value: '2', label: 'User' },
+      ],
+      gender: [
+        { value: '', label: 'Select Gender' },
+        { value: 'male', label: 'Male' },
+        { value: 'female', label: 'Female' },
+      ],
+    };
+
+    if (name in options) {
       return (
         <select
           name={name}
@@ -170,9 +136,11 @@ const EditProfile = () => {
           onBlur={formik.handleBlur}
           className="mt-3 w-full rounded-lg border border-primary/50 bg-white p-3 text-sm text-dark shadow-md outline-none focus:border-none focus:ring-2 focus:ring-primary/50 md:mt-5 md:p-4"
         >
-          <option value="">Select Gender</option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
+          {options[name as keyof typeof options].map(({ value, label }) => (
+            <option key={value} value={value}>
+              {label}
+            </option>
+          ))}
         </select>
       );
     }
@@ -195,9 +163,9 @@ const EditProfile = () => {
           </div>
         </div>
       </div>
+
       <div className="container mx-auto">
         <div className="px-5 py-10 md:px-10">
-          {/* title */}
           <div className="flex w-full flex-col gap-5 border-b border-dark-3 pb-7 md:flex-row md:justify-between">
             <div className="w-3/5">
               <h2>Personal information</h2>
@@ -225,21 +193,19 @@ const EditProfile = () => {
               </div>
             </div>
           </div>
-          {/* input */}
+
           <div className="flex items-start gap-10 pt-5 lg:pt-10">
             <MenuEdit />
             <form
               className="mb-8 w-full lg:w-2/3"
-              onSubmit={(e) => {
-                e.preventDefault();
-                formik.handleSubmit(e);
-              }}
+              onSubmit={formik.handleSubmit}
             >
               {DATA_EDIT_PROFILE.map(({ placeholder, name, type }) => {
                 const value = formik.values[name as keyof typeof formik.values];
                 const error = formik.errors[name as keyof typeof formik.errors];
                 const touched =
                   formik.touched[name as keyof typeof formik.touched];
+
                 return (
                   <div key={name} className="relative">
                     {type === 'select' ? (
@@ -269,17 +235,15 @@ const EditProfile = () => {
                   </div>
                 );
               })}
-              <div>
-                <button
-                  type="submit"
-                  className={twMerge(
-                    'smooth-hover mt-8 flex w-2/5 items-center justify-center bg-primary hover:bg-secondary',
-                    'rounded-lg py-3 text-lg text-white hover:text-white md:py-4 lg:mt-10',
-                  )}
-                >
-                  Save
-                </button>
-              </div>
+              <button
+                type="submit"
+                className={twMerge(
+                  'smooth-hover mt-8 flex w-2/5 items-center justify-center bg-primary hover:bg-secondary',
+                  'rounded-lg py-3 text-lg text-white hover:text-white md:py-4 lg:mt-10',
+                )}
+              >
+                Save
+              </button>
             </form>
           </div>
         </div>

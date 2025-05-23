@@ -4,7 +4,7 @@ import GoogleMaps from '@/components/common/google-map';
 
 const ContactPage = () => {
   return (
-    <div className="h-screen w-full">
+    <div className="h-[calc(100vh-80px)] w-full pt-16">
       <GoogleMaps />
     </div>
   );
