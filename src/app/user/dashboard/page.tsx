@@ -114,6 +114,7 @@ const YourProfile = () => {
               </div>
               <h2 className="capitalize text-white">Hello {nameUser}</h2>
             </div>
+
             <div className="mx-auto lg:w-4/5">
               <div className="mb-3 flex items-center rounded-md bg-white p-5">
                 <div className="flex w-full items-center justify-between text-black">
@@ -141,8 +142,8 @@ const YourProfile = () => {
       {/* content */}
       <div className="bg-dark-2">
         <div className="container mx-auto">
-          <div className="py-5 lg:px-5">
-            <div className="px-5 lg:px-0">
+          <div className="py-5 lg:px-5 ">
+            <div className="mb-4 px-5 lg:px-0">
               <div className="rounded-md border border-gray-300 bg-white p-5 text-black">
                 <div className="mb-3 flex items-center justify-between gap-3">
                   <div>
@@ -169,6 +170,22 @@ const YourProfile = () => {
                 </div>
               </div>
             </div>
+
+            <div className="px-5 lg:px-0">
+              <div className="flex items-center justify-between rounded-md border border-gray-300 bg-white p-5 text-black lg:px-10">
+                <div className="mb-3 ">
+                  <h3 className="mb-2">List of booked hotels</h3>
+                  <p>View edit and delete placed orders</p>
+                </div>
+                <Link
+                  href="/user/view-edit-order"
+                  className="rounded-md border border-blue-2 bg-blue-2 px-5 py-3 text-sm text-white"
+                >
+                  View all
+                </Link>
+              </div>
+            </div>
+
             <ul className="mt-5 grid grid-cols-1 gap-5 lg:grid-cols-2">
               {data.map((item) => (
                 <li

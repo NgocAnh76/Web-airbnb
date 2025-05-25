@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getForeignLocations, getVNLocation } from '../location';
+import { getForeignLocations, getLocation, getVNLocation } from '../location';
 import { getRoomById, getRoomByLocationId } from '../room';
 import { getComment } from '../comment';
 
@@ -23,6 +23,13 @@ export const useGetRoomByLocationId = (id: number) => {
   return useQuery({
     queryKey: ['room-by-location-id', id],
     queryFn: () => getRoomByLocationId(id),
+  });
+};
+
+export const useGetLocation = () => {
+  return useQuery({
+    queryKey: ['location'],
+    queryFn: () => getLocation(),
   });
 };
 

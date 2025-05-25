@@ -1,11 +1,13 @@
 'use client';
 import Avatar from '@/components/common/avatar';
+import Calendar from '@/components/common/calender';
 import IsLoading from '@/components/common/isLoading';
+import MenuBooking from '@/components/menu-booking';
 import renderStars from '@/components/common/render/render.start';
 import { useGetComment, useGetRoomById } from '@/configs/api/queries';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { ReactNode, useEffect } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { CiWarning } from 'react-icons/ci';
 import { FaBed, FaParking, FaWifi } from 'react-icons/fa';
 import { FaKitchenSet } from 'react-icons/fa6';
@@ -27,6 +29,11 @@ import {
 } from 'react-icons/pi';
 import { TbAirConditioning, TbIroningSteamFilled } from 'react-icons/tb';
 import { toast } from 'react-toastify';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/rootReducer';
+import { UserInfo } from '@/helper/type/type-user';
+import { AddBooking } from '@/configs/api/booking';
 
 // Types
 interface Location {
@@ -67,6 +74,14 @@ interface RoomAmenity {
   value: number | boolean;
 }
 
+interface BookingData {
+  room_id: number;
+  user_id: number;
+  arrival_date: string;
+  departure_date: string;
+  number_guests: number;
+}
+
 // Constants
 const PROPERTY_HIGHLIGHTS: PropertyHighlight[] = [
   { icon: <PiAirplaneTakeoffDuotone />, label: 'Airport transfer' },
@@ -103,6 +118,89 @@ const ROOM_AMENITIES = (data: Room): RoomAmenity[] => [
   { icon: <FaParking />, label: 'Parking', value: data.parking },
   { icon: <MdOutlinePool />, label: 'Pool', value: data.pool },
 ];
+
+const ModalBooking = ({ roomId }: { roomId: number }) => {
+  const userInfo = useSelector(
+    (state: RootState) => state.user.info,
+  ) as UserInfo | null;
+  // const userId = userInfo?.user_id;
+  console.log(userInfo);
+  const [bookingData, setBookingData] = useState<BookingData>({
+    room_id: roomId,
+    user_id: userInfo?.user_id || 0,
+    arrival_date: '',
+    departure_date: '',
+    number_guests: 0,
+  });
+
+  const handleCalendarChange = (dates: {
+    startDate: string;
+    endDate: string;
+  }) => {
+    setBookingData((prev) => ({
+      ...prev,
+      arrival_date: dates.startDate,
+      departure_date: dates.endDate,
+    }));
+  };
+
+  const handleMenuBookingChange = (data: { people: number; rooms: number }) => {
+    setBookingData((prev) => ({
+      ...prev,
+      number_guests: data.people,
+    }));
+  };
+
+  const handleBooking = async () => {
+    if (!userInfo) {
+      toast.error('Please login to book a room');
+      return;
+    }
+
+    if (!bookingData.arrival_date || !bookingData.departure_date) {
+      toast.error('Please select check-in and check-out dates');
+      return;
+    }
+
+    if (bookingData.number_guests === 0) {
+      toast.error('Please select number of people');
+      return;
+    }
+
+    try {
+      // TODO: Add your booking API call here
+      console.log(bookingData);
+      const response = await AddBooking(bookingData);
+      toast.success('Booking successful!');
+    } catch (error) {
+      console.error(error);
+      toast.error('Failed to book room');
+    }
+  };
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: -100, opacity: 0 }}
+        transition={{ duration: 0.3, ease: 'easeOut' }}
+        className="flex items-end justify-between gap-5 rounded-md bg-gray-100 p-5 shadow-md"
+      >
+        <div className="flex items-start justify-center gap-5">
+          <Calendar onChange={handleCalendarChange} />
+          <MenuBooking onChange={handleMenuBookingChange} />
+        </div>
+        <button
+          onClick={handleBooking}
+          className="smooth-hover rounded-lg bg-primary px-10 py-2 text-white hover:bg-secondary focus:bg-secondary md:py-3 lg:text-lg"
+        >
+          Booking
+        </button>
+      </motion.div>
+    </AnimatePresence>
+  );
+};
 
 // Components
 const PropertyHighlights = () => (
@@ -174,7 +272,6 @@ const ImageGallery = ({ images }: { images: string[] }) => (
 );
 
 const Comment = ({ roomId }: { roomId: number }) => {
-  console.log(roomId);
   const { data, isLoading, error } = useGetComment(roomId);
   if (isLoading) return <IsLoading />;
   if (error) toast.error(error.message);
@@ -265,7 +362,7 @@ const processImages = (imageString: string | undefined | null) => {
 const DetailRoom = () => {
   const pathname = usePathname();
   const roomId = pathname.split('/')[2];
-
+  const [isOpenModalBooking, setIsOpenModalBooking] = useState(false);
   const { data, isLoading, error } = useGetRoomById(Number(roomId));
 
   useEffect(() => {
@@ -295,10 +392,17 @@ const DetailRoom = () => {
           <p className="text-2xl font-bold text-primary lg:text-4xl">
             {formatPrice(data.price || 0)}
           </p>
-          <button className="smooth-hover lg:px-15 rounded-lg bg-primary px-4 py-2 text-white hover:bg-secondary focus:bg-secondary md:py-5 lg:text-lg">
-            Book now
+          <button
+            className="smooth-hover rounded-lg bg-primary px-10 py-2 text-white hover:bg-secondary focus:bg-secondary md:py-5 lg:px-20 lg:text-lg"
+            onClick={() => setIsOpenModalBooking((prev) => !prev)}
+          >
+            {isOpenModalBooking ? 'Close' : 'Book now'}
           </button>
         </div>
+
+        <AnimatePresence>
+          {isOpenModalBooking && <ModalBooking roomId={Number(roomId)} />}
+        </AnimatePresence>
 
         <ImageGallery images={cleanImageList} />
 

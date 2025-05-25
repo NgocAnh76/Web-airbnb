@@ -10,7 +10,6 @@ export function SetupRequestInterceptor(api: AxiosInstance) {
       if (accessToken) {
         config.headers.Authorization = `Bearer ${accessToken}`;
       }
-      console.log(accessToken);
 
       const user = await getUser();
       if (user) {

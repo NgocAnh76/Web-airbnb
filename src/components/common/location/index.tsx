@@ -1,25 +1,26 @@
-import React from 'react';
+import { useGetLocation } from '@/configs/api/queries';
 import { FiMapPin } from 'react-icons/fi';
+import IsLoading from '../isLoading';
+import { LocationInfo } from '@/helper/type/location';
 const Location = () => {
-  const data: { name: string; location: string }[] = [
-    { name: 'New York', location: 'New York State, United States' },
-    { name: 'Paris', location: 'France' },
-    { name: 'Madrid', location: 'Spain' },
-    { name: 'Santorini', location: 'Greece' },
-  ];
+  const { data, isLoading, error } = useGetLocation();
+
+  if (isLoading) return <IsLoading />;
+  if (error) console.log(error.message);
+
   return (
     <div className="px-10 md:w-[500px]">
-      <ul className="rounded-sm bg-white p-5 text-black">
-        {data.map((item, i) => {
+      <ul className="scrollbar-hide scrollbar-thumb-dark-2 scrollbar-track-transparent h-60 cursor-pointer overflow-y-auto rounded-md bg-white p-5 text-black shadow-md">
+        {data.map((item: LocationInfo) => {
           return (
             <li
-              key={i}
+              key={item.location_id}
               className="smooth-hover flex items-center justify-start p-3 hover:bg-dark-2"
             >
-              <FiMapPin className="mr-3 text-2xl text-dark" />
+              <FiMapPin className="mr-3 text-xl text-dark" />
               <div>
-                <h3>{item.name}</h3>
-                <p>{item.location}</p>
+                <h3 className="text-base font-medium">{item.name_location}</h3>
+                <p>{item.province}</p>
               </div>
             </li>
           );
