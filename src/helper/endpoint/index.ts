@@ -15,6 +15,7 @@ export const ENDPOINT = {
     GET_BY_LOCATION_ID: `room/location-id`,
   },
   COMMENT: 'comments',
+  BOOKING: 'booking',
   USER: `user`,
   AVATAR_UPLOAD: `user/avatar-cloud`,
 };
