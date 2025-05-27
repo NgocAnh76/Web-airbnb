@@ -1,6 +1,7 @@
 'use client';
 import { SocialButton } from '@/components/atoms/buttons';
 import { InputField } from '@/components/atoms/input';
+import { DATA_INPUT_REGISTER } from '@/components/atoms/input/data.input';
 import { signupValidationSchema } from '@/components/common/schemaValidation';
 import { register } from '@/configs/api/auth';
 import { useFormik } from 'formik';
@@ -34,23 +35,34 @@ const RegisterPage = () => {
         toast.success('Register successfully');
         router.push('/auth/login');
       } catch (error) {
-        toast.error((error as Error).message || 'Register failed!');
+        console.log(error);
       }
     },
   });
-  const dataInput: {
-    placeholder: string;
-    name: string;
-    isPassword?: boolean;
-    type?: string;
-  }[] = [
-    { placeholder: 'Email', name: 'email' },
-    { placeholder: 'Full name', name: 'full_name' },
-    { placeholder: 'Password', name: 'pass_word', isPassword: true },
-    { placeholder: 'Phone', name: 'phone' },
-    { placeholder: 'Birthday', name: 'birth_day' },
-    { placeholder: 'Gender', name: 'gender' },
-  ];
+
+  const renderSelectOptions = (name: string) => {
+    if (name === 'gender') {
+      return (
+        <select
+          name={name}
+          value={formik.values[name as keyof typeof formik.values]}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          className={twMerge(
+            'mt-3 w-full rounded-lg border border-primary/50 bg-white',
+            ' p-3 text-sm text-dark shadow-md outline-none focus:border-none focus:ring-2',
+            'focus:ring-primary/50 md:mt-5 md:p-4',
+          )}
+        >
+          <option value="">Select Gender</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+      );
+    }
+    return null;
+  };
+
   return (
     <div className="mx-auto mt-40 py-5 md:mt-0 md:w-3/4 lg:w-1/2 xl:h-[80%]">
       <div className="mx-5 rounded-lg bg-white p-8 md:p-14">
@@ -64,27 +76,37 @@ const RegisterPage = () => {
           </div>
         </div>
         <form className="mb-8" onSubmit={formik.handleSubmit}>
-          {dataInput.map((data, i) => {
+          {DATA_INPUT_REGISTER.map((data, i) => {
             return (
               <div key={i} className="relative">
-                <InputField
-                  type={
-                    data.isPassword
-                      ? showPassword
-                        ? 'text'
-                        : 'password'
-                      : data.type || 'text'
-                  }
-                  placeholder={data.placeholder}
-                  name={data.name}
-                  value={formik.values[data.name as keyof typeof formik.values]}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={formik.errors[data.name as keyof typeof formik.errors]}
-                  touched={
-                    formik.touched[data.name as keyof typeof formik.touched]
-                  }
-                />
+                {data.type === 'select' ? (
+                  <div className="flex flex-col">
+                    {renderSelectOptions(data.name)}
+                  </div>
+                ) : (
+                  <InputField
+                    type={
+                      data.isPassword
+                        ? showPassword
+                          ? 'text'
+                          : 'password'
+                        : data.type || 'text'
+                    }
+                    placeholder={data.placeholder}
+                    name={data.name}
+                    value={
+                      formik.values[data.name as keyof typeof formik.values]
+                    }
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={
+                      formik.errors[data.name as keyof typeof formik.errors]
+                    }
+                    touched={
+                      formik.touched[data.name as keyof typeof formik.touched]
+                    }
+                  />
+                )}
                 {data.isPassword && (
                   <button
                     type="button"

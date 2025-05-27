@@ -70,9 +70,25 @@ export const RectangleCard = ({
 };
 
 export const RoomCard = ({ data }: RoomCardProps) => {
-  console.log(data);
+  console.log(data[0].image);
   const iconTrue = <IoCheckboxOutline className="text-2xl text-green-500" />;
   const iconFalse = <FaXmark className="text-2xl text-red-500" />;
+
+  const processImages = (imageString: string | undefined | null) => {
+    if (!imageString) return [];
+
+    return imageString
+      .split(',')
+      .filter(Boolean)
+      .map((url) => url.trim())
+      .filter((url) => url.startsWith('http') || url.startsWith('https'));
+  };
+
+  const renderImage = (image: string) => {
+    const processedImages = processImages(image);
+    return processedImages.length > 0 ? processedImages[0] : '';
+  };
+
   return (
     <div className="container">
       {data.map((data) => {
@@ -84,7 +100,7 @@ export const RoomCard = ({ data }: RoomCardProps) => {
             <div className="w-2/5">
               <Image
                 className="h-52 w-full rounded-lg object-cover md:h-56"
-                src={data.image}
+                src={renderImage(data.image)}
                 alt={data.room_name}
                 width={300}
                 height={300}

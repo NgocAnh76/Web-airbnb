@@ -15,6 +15,10 @@ import {
   removeAccessToken,
   removeUserInfo,
 } from '@/configs/api/cookie-service';
+import {
+  AvatarCustomNameProps,
+  AvatarProps,
+} from '@/helper/type/avatar/avatar';
 
 // Custom hook để xử lý responsive size
 const useAvatarSize = (defaultSize: number) => {
@@ -41,15 +45,6 @@ const useAvatarSize = (defaultSize: number) => {
 
   return size;
 };
-
-interface AvatarCustomNameProps {
-  name: string;
-  defaultSize?: number;
-  bgColor?: string;
-  textColor?: string;
-  className?: string;
-  userId?: number | string;
-}
 
 export const AvatarCustomName = ({
   name,
@@ -112,17 +107,6 @@ export const AvatarCustomName = ({
   );
 };
 
-interface AvatarProps {
-  src?: string;
-  alt?: string;
-  size?: number;
-  className?: string;
-  name?: string;
-  textColor?: string;
-  bgColor?: string;
-  userId?: number | string;
-}
-
 export const AvatarImage = ({
   src,
   alt = 'Avatar',
@@ -165,6 +149,39 @@ export const AvatarImage = ({
   );
 };
 
+export const AvatarComment = () => {
+  const dataUser = useSelector(
+    (state: RootState) => state.user.info,
+  ) as UserInfo | null;
+
+  const avatarUser = dataUser?.avatar;
+
+  const nameUser = dataUser?.full_name || 'User';
+
+  return (
+    <div className="relative p-2">
+      <div
+        className={twMerge(
+          'h-12 w-12 rounded-full md:h-14 md:w-14',
+          'block overflow-hidden object-center',
+        )}
+      >
+        {avatarUser ? (
+          <Image
+            className="h-24 w-24 object-cover"
+            src={avatarUser}
+            alt={nameUser}
+            width={200}
+            height={200}
+          />
+        ) : (
+          <AvatarCustomName name={nameUser} className="h-full w-full" />
+        )}
+      </div>
+    </div>
+  );
+};
+
 const Avatar = () => {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -198,10 +215,11 @@ const Avatar = () => {
   };
 
   const hoverEnabled = useMemo(() => {
-    const allowHoverPaths = ['/', '/home', '/detail', '/contact'];
+    const allowHoverPaths = ['/', '/home', '/location', '/room', '/contact'];
     return allowHoverPaths.some(
       (allowedPath) =>
-        pathname === allowedPath || pathname.startsWith(allowedPath),
+        pathname === allowedPath ||
+        (allowedPath !== '/' && pathname.startsWith(allowedPath)),
     );
   }, [pathname]);
 

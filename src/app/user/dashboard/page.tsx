@@ -4,6 +4,7 @@ import HeaderDashboard from '@/components/common/header/headerDashboard';
 import { UserInfo } from '@/helper/type/type-user';
 import { RootState } from '@/redux/rootReducer';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 import {
   CiCircleQuestion,
@@ -27,10 +28,12 @@ import {
 } from 'react-icons/lu';
 import { MdOutlineSecurity } from 'react-icons/md';
 import { PiHouseSimpleLight } from 'react-icons/pi';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 
 const YourProfile = () => {
+  const router = useRouter();
+  const dispatch = useDispatch();
   const dataUser = useSelector(
     (state: RootState) => state.user.info,
   ) as UserInfo | null;
@@ -101,6 +104,7 @@ const YourProfile = () => {
       ],
     },
   ];
+
   return (
     <>
       {/* header anb banner */}

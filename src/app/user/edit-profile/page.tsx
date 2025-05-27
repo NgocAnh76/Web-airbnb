@@ -155,7 +155,7 @@ const EditProfile = () => {
           <div className="flex items-center justify-start px-5 pt-2">
             <IoIosArrowRoundBack className="text-white lg:text-xl" />
             <Link
-              href="/user/profile"
+              href="/user/dashboard"
               className="text-sm text-white hover:text-white"
             >
               Account
@@ -229,7 +229,7 @@ const EditProfile = () => {
                         onBlur={formik.handleBlur}
                         error={error as string}
                         touched={touched as boolean}
-                        className="bg-gray-50"
+                        className="mb-3 bg-gray-50"
                       />
                     )}
                   </div>

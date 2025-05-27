@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export interface RoomCardProps {
   data: {
     image: string;
@@ -67,4 +69,32 @@ export interface RoomForms {
   image: string;
   location_id: number;
   address: string;
+}
+
+export interface RoomAmenity {
+  icon: ReactNode;
+  label: string;
+  value: number | boolean;
+}
+
+export interface Room {
+  room_id: number;
+  room_name: string;
+  image: string;
+  living_room: number;
+  bedroom: number;
+  bed: number;
+  bathroom: number;
+  kitchen: boolean;
+  washing_machine: boolean;
+  air_conditioner: boolean;
+  television: boolean;
+  wifi: boolean;
+  iron: boolean;
+  parking: boolean;
+  pool: boolean;
+  description: string;
+  price: number;
+  address: string;
+  locations: Location;
 }

@@ -1,10 +1,16 @@
 'use client';
-import Avatar from '@/components/common/avatar';
+import { AvatarComment } from '@/components/common/avatar';
 import Calendar from '@/components/common/calender';
 import IsLoading from '@/components/common/isLoading';
-import MenuBooking from '@/components/menu-booking';
 import renderStars from '@/components/common/render/render.start';
+import MenuBooking from '@/components/menu-booking';
+import { AddBooking } from '@/configs/api/booking';
 import { useGetComment, useGetRoomById } from '@/configs/api/queries';
+import { BookingData } from '@/helper/type/booking';
+import { Room, RoomAmenity } from '@/helper/type/room';
+import { UserInfo } from '@/helper/type/type-user';
+import { RootState } from '@/redux/rootReducer';
+import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { ReactNode, useEffect, useState } from 'react';
@@ -28,58 +34,12 @@ import {
   PiTelevisionSimpleDuotone,
 } from 'react-icons/pi';
 import { TbAirConditioning, TbIroningSteamFilled } from 'react-icons/tb';
-import { toast } from 'react-toastify';
-import { motion, AnimatePresence } from 'framer-motion';
 import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/rootReducer';
-import { UserInfo } from '@/helper/type/type-user';
-import { AddBooking } from '@/configs/api/booking';
-
-// Types
-interface Location {
-  province: string;
-  address: string;
-}
-
-interface Room {
-  room_id: number;
-  room_name: string;
-  image: string;
-  living_room: number;
-  bedroom: number;
-  bed: number;
-  bathroom: number;
-  kitchen: boolean;
-  washing_machine: boolean;
-  air_conditioner: boolean;
-  television: boolean;
-  wifi: boolean;
-  iron: boolean;
-  parking: boolean;
-  pool: boolean;
-  description: string;
-  price: number;
-  address: string;
-  locations: Location;
-}
+import { toast } from 'react-toastify';
 
 interface PropertyHighlight {
   icon: ReactNode;
   label: string;
-}
-
-interface RoomAmenity {
-  icon: ReactNode;
-  label: string;
-  value: number | boolean;
-}
-
-interface BookingData {
-  room_id: number;
-  user_id: number;
-  arrival_date: string;
-  departure_date: string;
-  number_guests: number;
 }
 
 // Constants
@@ -119,12 +79,11 @@ const ROOM_AMENITIES = (data: Room): RoomAmenity[] => [
   { icon: <MdOutlinePool />, label: 'Pool', value: data.pool },
 ];
 
-const ModalBooking = ({ roomId }: { roomId: number }) => {
+const ModalBooking = ({ roomId, price }: { roomId: number; price: number }) => {
   const userInfo = useSelector(
     (state: RootState) => state.user.info,
   ) as UserInfo | null;
-  // const userId = userInfo?.user_id;
-  console.log(userInfo);
+
   const [bookingData, setBookingData] = useState<BookingData>({
     room_id: roomId,
     user_id: userInfo?.user_id || 0,
@@ -142,6 +101,20 @@ const ModalBooking = ({ roomId }: { roomId: number }) => {
       arrival_date: dates.startDate,
       departure_date: dates.endDate,
     }));
+  };
+
+  const RoomRate = (price: number) => {
+    if (!bookingData.arrival_date || !bookingData.departure_date) {
+      return formatPrice(0);
+    }
+
+    const startDate = new Date(bookingData.arrival_date);
+    const endDate = new Date(bookingData.departure_date);
+    const diffTime = Math.abs(endDate.getTime() - startDate.getTime());
+    const numberDayBooking = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    const totalPrice = price * numberDayBooking;
+
+    return formatPrice(totalPrice);
   };
 
   const handleMenuBookingChange = (data: { people: number; rooms: number }) => {
@@ -185,15 +158,25 @@ const ModalBooking = ({ roomId }: { roomId: number }) => {
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: -100, opacity: 0 }}
         transition={{ duration: 0.3, ease: 'easeOut' }}
-        className="flex items-end justify-between gap-5 rounded-md bg-gray-100 p-5 shadow-md"
+        className="flex flex-col items-center justify-between gap-5 rounded-md bg-gray-100 p-5 shadow-md lg:flex-row lg:items-end"
       >
-        <div className="flex items-start justify-center gap-5">
+        <div className="flex flex-col items-start justify-center md:flex-row md:gap-5">
           <Calendar onChange={handleCalendarChange} />
-          <MenuBooking onChange={handleMenuBookingChange} />
+          <div className="mt-3 flex flex-col items-center justify-center gap-3  md:items-start">
+            <MenuBooking onChange={handleMenuBookingChange} />
+            <div className="mt-4 w-full rounded-lg bg-white p-5 shadow-md">
+              <p>
+                Total price:
+                <span className="text-base font-medium text-primary lg:text-lg">
+                  {RoomRate(price)}
+                </span>
+              </p>
+            </div>
+          </div>
         </div>
         <button
           onClick={handleBooking}
-          className="smooth-hover rounded-lg bg-primary px-10 py-2 text-white hover:bg-secondary focus:bg-secondary md:py-3 lg:text-lg"
+          className="smooth-hover rounded-lg bg-primary px-10 py-3 text-white hover:bg-secondary focus:bg-secondary  lg:text-lg"
         >
           Booking
         </button>
@@ -204,12 +187,12 @@ const ModalBooking = ({ roomId }: { roomId: number }) => {
 
 // Components
 const PropertyHighlights = () => (
-  <div className="mt-10">
+  <div className=" container mt-10">
     <h2>Property highlights</h2>
     <ul className="grid grid-cols-2 gap-10 py-5 md:grid-cols-3">
       {PROPERTY_HIGHLIGHTS.map((highlight, index) => (
         <li
-          className="flex items-center gap-2 text-center lg:gap-5"
+          className="flex items-center  gap-2 text-center lg:gap-5"
           key={index}
         >
           <p className="text-3xl text-primary">{highlight.icon}</p>
@@ -248,11 +231,11 @@ const RoomAmenities = ({ data }: { data: Room }) => {
 
 const ImageGallery = ({ images }: { images: string[] }) => (
   <div className="grid grid-cols-1 gap-2 p-4 md:grid-cols-3">
-    <div className="md:col-span-2 lg:row-span-3">
+    <div className="md:col-span-2  md:row-span-2 lg:row-span-3">
       <Image
         src={images[0]}
         alt="Main"
-        className="h-full w-full rounded-xl object-cover"
+        className="h-full w-full rounded-xl object-cover "
         width={300}
         height={300}
       />
@@ -262,7 +245,7 @@ const ImageGallery = ({ images }: { images: string[] }) => (
         <Image
           src={img}
           alt={`Image ${index + 1}`}
-          className="h-full w-full rounded-xl object-cover"
+          className="h-full w-full rounded-xl object-cover "
           width={300}
           height={300}
         />
@@ -304,7 +287,7 @@ const Comment = ({ roomId }: { roomId: number }) => {
             className="mb-2 rounded-lg border border-dark-3 bg-dark-3 p-3 shadow-sm"
           >
             <div className="flex items-start gap-2">
-              <Avatar />
+              <AvatarComment />
               <div>
                 <div>
                   <h4 className="font-semibold capitalize text-black">
@@ -401,7 +384,9 @@ const DetailRoom = () => {
         </div>
 
         <AnimatePresence>
-          {isOpenModalBooking && <ModalBooking roomId={Number(roomId)} />}
+          {isOpenModalBooking && (
+            <ModalBooking roomId={Number(roomId)} price={data.price} />
+          )}
         </AnimatePresence>
 
         <ImageGallery images={cleanImageList} />
