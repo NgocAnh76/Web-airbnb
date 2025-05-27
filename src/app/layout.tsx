@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
 import './globals.css';
 import ClientLayout from '@/layouts/client';
+import LoadingProvider from '@/components/common/loading/loading-provider';
 
 export const metadata: Metadata = {
   title: 'Capstone Airbnb',
@@ -21,7 +22,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${roboto.variable} antialiased`}>
-        <ClientLayout>{children}</ClientLayout>
+        <LoadingProvider>
+          <ClientLayout>{children}</ClientLayout>
+        </LoadingProvider>
       </body>
     </html>
   );

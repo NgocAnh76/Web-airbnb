@@ -20,7 +20,7 @@ const Calendar = ({ onChange }: CalendarProps) => {
   };
 
   return (
-    <div className="flex w-fit flex-col items-center rounded bg-white p-4 shadow-md">
+    <div className="mx-auto flex w-fit flex-col items-center justify-center rounded bg-white p-4 shadow-md ">
       <h2 className="mb-2 text-base font-semibold">
         Select date Check-in & Check-out
       </h2>
@@ -39,7 +39,7 @@ const Calendar = ({ onChange }: CalendarProps) => {
         inline
         monthsShown={2}
         dateFormat="dd/MM/yyyy"
-        className="custom-datepicker"
+        className=""
       />
       <div className="mt-4 w-64 rounded border p-3 text-center">
         {startDate && endDate ? (

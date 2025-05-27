@@ -36,7 +36,7 @@ const Counter = ({
   };
 
   return (
-    <div className="flex items-center justify-between border-b py-4">
+    <div className="flex items-center justify-between gap-3 border-b py-4">
       <div>
         <p className={`text-base font-medium ${className}`}>{label}</p>
         {subLabel && <p className="text-sm text-gray-500">{subLabel}</p>}
@@ -74,20 +74,20 @@ const MenuBooking = ({ className, onChange }: MenuBookingProps) => {
     onChange?.({ people: value, rooms });
   };
 
-  const handleRoomsChange = (value: number) => {
-    setRooms(value);
-    onChange?.({ people, rooms: value });
-  };
+  // const handleRoomsChange = (value: number) => {
+  //   setRooms(value);
+  //   onChange?.({ people, rooms: value });
+  // };
 
   return (
     <div
-      className={`w-96 rounded-lg bg-white p-6 text-base text-black shadow-lg ${className}`}
+      className={`rounded-lg bg-white px-6 py-3 text-base text-black shadow-lg lg:w-96 lg:p-6 ${className}`}
     >
       <Counter
         label="Number of people"
         initial={0}
         min={0}
-        className="text-base font-medium text-gray-800"
+        className="text-sm font-medium text-gray-800 lg:text-base"
         onChange={handlePeopleChange}
       />
       {/* <Counter
