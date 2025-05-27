@@ -96,7 +96,7 @@ const RoomFormPage = ({ mode, roomId, initialData }: RoomFormPageProps) => {
   const renderInputCheckbox = (
     placeholder: string,
     name: string,
-    type: string,
+    type?: string,
   ) => {
     return (
       <div>

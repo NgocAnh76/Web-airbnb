@@ -1,8 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
+import { getComment } from '../comment';
 import { getForeignLocations, getLocation, getVNLocation } from '../location';
 import { getRoomById, getRoomByLocationId } from '../room';
-import { getComment } from '../comment';
-import { GetBooking } from '../booking';
 
 //  location
 export const useForeignLocations = (nationId: number) => {

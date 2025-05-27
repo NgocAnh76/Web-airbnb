@@ -7,6 +7,9 @@ import LoadingProvider from '@/components/common/loading/loading-provider';
 export const metadata: Metadata = {
   title: 'Capstone Airbnb',
   description: 'Capstone Airbnb',
+  icons: {
+    icon: '/logo.png',
+  },
 };
 
 const roboto = Roboto({
