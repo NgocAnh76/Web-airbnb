@@ -143,7 +143,7 @@ const ModalBooking = ({ roomId, price }: { roomId: number; price: number }) => {
     try {
       // TODO: Add your booking API call here
       console.log(bookingData);
-      const response = await AddBooking(bookingData);
+      await AddBooking(bookingData);
       toast.success('Booking successful!');
     } catch (error) {
       console.error(error);
