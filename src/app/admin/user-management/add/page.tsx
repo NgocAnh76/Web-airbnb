@@ -1,9 +1,9 @@
 'use client';
 
-import UserForm from '../components/UserForm';
+import UserFormAdmin from '@/components/common/user-from-admin';
 
 const AddUserPage = () => {
-  return <UserForm mode="add" />;
+  return <UserFormAdmin mode="add" />;
 };
 
 export default AddUserPage;

@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import LocationForm from '../../components/LocationForm';
+import LocationFormAdmin from '@/components/common/location-form-admin';
 import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import IsLoading from '@/components/common/isLoading';
@@ -18,7 +18,7 @@ const EditLocationPage = () => {
     console.error(error);
   }
   return (
-    <LocationForm mode="edit" locationId={Number(id)} initialData={data} />
+    <LocationFormAdmin mode="edit" locationId={Number(id)} initialData={data} />
   );
 };
 
