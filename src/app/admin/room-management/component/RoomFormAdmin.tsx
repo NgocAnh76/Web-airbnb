@@ -14,13 +14,13 @@ import { IoCheckmarkSharp, IoCloseSharp } from 'react-icons/io5';
 import { toast } from 'react-toastify';
 import { twMerge } from 'tailwind-merge';
 
-interface RoomFormPageProps {
+interface RoomFormAdminProps {
   mode: 'add' | 'edit';
   roomId?: number;
   initialData?: RoomForms;
 }
 
-const RoomFormPage = ({ mode, roomId, initialData }: RoomFormPageProps) => {
+const RoomFormAdmin = ({ mode, roomId, initialData }: RoomFormAdminProps) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -138,6 +138,7 @@ const RoomFormPage = ({ mode, roomId, initialData }: RoomFormPageProps) => {
       </div>
     );
   };
+
   const renderSelectOptions = (name: string) => {
     const { data: locations } = useQuery({
       queryKey: ['locations'],
@@ -243,4 +244,4 @@ const RoomFormPage = ({ mode, roomId, initialData }: RoomFormPageProps) => {
   );
 };
 
-export default RoomFormPage;
+export default RoomFormAdmin;

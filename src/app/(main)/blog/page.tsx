@@ -3,13 +3,11 @@ import Destination from '@/components/sections/blog/Destination';
 import Mission from '@/components/sections/blog/Mission';
 import Vision from '@/components/sections/blog/Vision';
 import { BannerHome } from '@/components/sections/home/home-banner';
-import React, { useState } from 'react';
 
 const BlogPage = () => {
-  const [ImageBanner] = useState('/images/banner/banner-2.jpg');
   return (
     <section>
-      <BannerHome backgroundImage={ImageBanner} />
+      <BannerHome backgroundImage={'/images/banner/banner-2.jpg'} />
       <Destination />
       <Mission />
       <Vision />

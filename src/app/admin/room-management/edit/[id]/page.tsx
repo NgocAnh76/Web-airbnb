@@ -1,9 +1,10 @@
 'use client';
-import RoomFormPage from '../../RoomForm/page';
-import { getRoomById } from '@/configs/api/room';
-import { useParams } from 'next/navigation';
+
 import IsLoading from '@/components/common/isLoading';
+import { getRoomById } from '@/configs/api/room';
 import { useQuery } from '@tanstack/react-query';
+import { useParams } from 'next/navigation';
+import RoomFormAdmin from '../../component/RoomFormAdmin';
 
 const RoomEditPage = () => {
   const { id } = useParams();
@@ -18,7 +19,7 @@ const RoomEditPage = () => {
     console.error(error);
   }
 
-  return <RoomFormPage mode="edit" roomId={Number(id)} initialData={data} />;
+  return <RoomFormAdmin mode="edit" roomId={Number(id)} initialData={data} />;
 };
 
 export default RoomEditPage;
