@@ -1,7 +1,7 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import UserForm from '../../components/UserForm';
+import UserFormAdmin from '@/components/common/user-from-admin';
 import { useQuery } from '@tanstack/react-query';
 import { getUserById } from '@/configs/api/user';
 import IsLoading from '@/components/common/isLoading';
@@ -16,7 +16,7 @@ const EditUserPage = () => {
   if (error) {
     console.error(error);
   }
-  return <UserForm userId={Number(id)} mode="edit" initialData={data} />;
+  return <UserFormAdmin userId={Number(id)} mode="edit" initialData={data} />;
 };
 
 export default EditUserPage;

@@ -1,4 +1,4 @@
-import RoomFormAdmin from '../component/RoomFormAdmin';
+import RoomFormAdmin from '@/components/common/rom-from-admin';
 
 const AddRoomPage = () => {
   return <RoomFormAdmin mode="add" />;

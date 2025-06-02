@@ -18,11 +18,11 @@ interface UserFormProps {
   initialData?: LocationForms;
 }
 
-export default function LocationForm({
+const LocationFormAdmin = ({
   mode,
   locationId,
   initialData,
-}: UserFormProps) {
+}: UserFormProps) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [imagePreview, setImagePreview] = useState<string>(
@@ -177,4 +177,6 @@ export default function LocationForm({
       </form>
     </div>
   );
-}
+};
+
+export default LocationFormAdmin;

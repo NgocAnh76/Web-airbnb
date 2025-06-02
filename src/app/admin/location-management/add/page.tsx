@@ -1,8 +1,8 @@
 'use client';
-import LocationForm from '../components/LocationForm';
+import LocationFormAdmin from '@/components/common/location-form-admin';
 
 const AddLocationPage = () => {
-  return <LocationForm mode="add" />;
+  return <LocationFormAdmin mode="add" />;
 };
 
 export default AddLocationPage;

@@ -18,7 +18,7 @@ interface UserFormProps {
   initialData?: UserInfo;
 }
 
-const UserForm = ({ mode, userId, initialData }: UserFormProps) => {
+const UserFormAdmin = ({ mode, userId, initialData }: UserFormProps) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -191,4 +191,4 @@ const UserForm = ({ mode, userId, initialData }: UserFormProps) => {
   );
 };
 
-export default UserForm;
+export default UserFormAdmin;

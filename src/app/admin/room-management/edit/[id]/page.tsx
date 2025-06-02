@@ -4,7 +4,7 @@ import IsLoading from '@/components/common/isLoading';
 import { getRoomById } from '@/configs/api/room';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
-import RoomFormAdmin from '../../component/RoomFormAdmin';
+import RoomFormAdmin from '@/components/common/rom-from-admin';
 
 const RoomEditPage = () => {
   const { id } = useParams();
