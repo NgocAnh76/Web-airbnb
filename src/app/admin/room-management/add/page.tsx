@@ -1,7 +1,7 @@
-import RoomFormPage from '../RoomForm/page';
+import RoomFormAdmin from '../component/RoomFormAdmin';
 
 const AddRoomPage = () => {
-  return <RoomFormPage mode="add" />;
+  return <RoomFormAdmin mode="add" />;
 };
 
 export default AddRoomPage;
